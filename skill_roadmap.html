@@ -1,0 +1,1973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sharan's Skill Roadmap 2026</title>
+<style>
+:root {
+  --bg: #080810;
+  --surface: #10101c;
+  --card: #16162a;
+  --card2: #1c1c32;
+  --border: #252540;
+  --border2: #2e2e50;
+  --text: #e2e8f0;
+  --muted: #7c85a0;
+  --sql: #06b6d4;
+  --sql-dim: rgba(6,182,212,0.12);
+  --sql-glow: rgba(6,182,212,0.25);
+  --py: #a855f7;
+  --py-dim: rgba(168,85,247,0.12);
+  --py-glow: rgba(168,85,247,0.25);
+  --bi: #f59e0b;
+  --bi-dim: rgba(245,158,11,0.12);
+  --bi-glow: rgba(245,158,11,0.25);
+  --green: #10b981;
+  --green-dim: rgba(16,185,129,0.12);
+  --red: #ef4444;
+  --p1: #3b82f6;
+  --p2: #8b5cf6;
+  --p3: #ec4899;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; min-height: 100vh; }
+
+/* ─── HEADER ─── */
+.header {
+  background: linear-gradient(160deg, #0a0a18 0%, #130a24 50%, #08101e 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 2.5rem 2rem 2rem;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 60%, rgba(6,182,212,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 40%, rgba(168,85,247,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 100%, rgba(245,158,11,0.04) 0%, transparent 40%);
+}
+.header-content { position: relative; }
+.header h1 {
+  font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 900; letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--sql) 0%, var(--py) 50%, var(--bi) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.header-sub { color: var(--muted); margin-top: 0.5rem; font-size: 0.9rem; }
+.header-badges { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-top: 1.2rem; }
+.hbadge {
+  font-size: 0.75rem; font-weight: 600; padding: 0.3rem 0.85rem; border-radius: 999px;
+  border: 1px solid; display: flex; align-items: center; gap: 0.35rem;
+}
+.hbadge-green { background: var(--green-dim); color: var(--green); border-color: rgba(16,185,129,0.3); }
+.hbadge-sql   { background: var(--sql-dim);   color: var(--sql);   border-color: rgba(6,182,212,0.3); }
+.hbadge-py    { background: var(--py-dim);    color: var(--py);    border-color: rgba(168,85,247,0.3); }
+.hbadge-bi    { background: var(--bi-dim);    color: var(--bi);    border-color: rgba(245,158,11,0.3); }
+
+/* ─── OVERALL STATS BAR ─── */
+.stats-bar {
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: 1.2rem 2rem; display: flex; gap: 1rem; align-items: stretch; flex-wrap: wrap;
+}
+.stat-pill {
+  flex: 1; min-width: 140px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 0.85rem 1rem;
+  display: flex; flex-direction: column; gap: 0.5rem;
+}
+.stat-label { font-size: 0.7rem; color: var(--muted); font-weight: 600; letter-spacing: 0.06em; display: flex; align-items: center; justify-content: space-between; }
+.stat-pct { font-size: 1.1rem; font-weight: 800; }
+.stat-pct.sql-col { color: var(--sql); }
+.stat-pct.py-col  { color: var(--py); }
+.stat-pct.bi-col  { color: var(--bi); }
+.stat-pct.all-col { color: var(--green); }
+.pbar { height: 5px; background: var(--border); border-radius: 999px; overflow: hidden; }
+.pbar-fill { height: 100%; border-radius: 999px; transition: width 0.6s cubic-bezier(.4,0,.2,1); width: 0%; }
+.pbar-sql { background: linear-gradient(90deg, var(--sql), #0891b2); }
+.pbar-py  { background: linear-gradient(90deg, var(--py), #7c3aed); }
+.pbar-bi  { background: linear-gradient(90deg, var(--bi), #d97706); }
+.pbar-all { background: linear-gradient(90deg, var(--green), #059669); }
+
+/* ─── TABS ─── */
+.tabs-wrap {
+  position: sticky; top: 0; z-index: 200;
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  display: flex;
+}
+.tab-btn {
+  flex: 1; padding: 0.9rem 0.5rem;
+  background: none; border: none; color: var(--muted);
+  font-size: 0.95rem; font-weight: 700; cursor: pointer;
+  border-bottom: 3px solid transparent;
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  transition: all 0.2s;
+}
+.tab-btn:hover { background: rgba(255,255,255,0.03); color: var(--text); }
+.tab-btn.t-sql { color: var(--sql); border-bottom-color: var(--sql); background: var(--sql-dim); }
+.tab-btn.t-py  { color: var(--py);  border-bottom-color: var(--py);  background: var(--py-dim); }
+.tab-btn.t-bi  { color: var(--bi);  border-bottom-color: var(--bi);  background: var(--bi-dim); }
+.tab-dot { width: 7px; height: 7px; border-radius: 50%; }
+.d-sql { background: var(--sql); }
+.d-py  { background: var(--py); }
+.d-bi  { background: var(--bi); }
+.tab-count {
+  font-size: 0.65rem; background: var(--border); color: var(--muted);
+  padding: 0.1rem 0.45rem; border-radius: 999px; font-weight: 700;
+  transition: all 0.3s;
+}
+.tab-btn.t-sql .tab-count { background: var(--sql-glow); color: var(--sql); }
+.tab-btn.t-py  .tab-count { background: var(--py-glow);  color: var(--py); }
+.tab-btn.t-bi  .tab-count { background: var(--bi-glow);  color: var(--bi); }
+
+/* ─── CONTENT PANELS ─── */
+.panel { display: none; padding: 2rem; max-width: 1140px; margin: 0 auto; }
+.panel.active { display: block; }
+
+/* ─── MARKET INSIGHT ─── */
+.insight {
+  background: linear-gradient(135deg, rgba(6,182,212,0.06), rgba(6,182,212,0.02));
+  border: 1px solid rgba(6,182,212,0.2); border-radius: 14px;
+  padding: 1.1rem 1.3rem; margin-bottom: 2rem;
+  display: flex; gap: 1rem; align-items: flex-start;
+}
+.insight.py-ins { background: linear-gradient(135deg, rgba(168,85,247,0.06), rgba(168,85,247,0.02)); border-color: rgba(168,85,247,0.2); }
+.insight.bi-ins { background: linear-gradient(135deg, rgba(245,158,11,0.06), rgba(245,158,11,0.02)); border-color: rgba(245,158,11,0.2); }
+.insight-icon { font-size: 1.6rem; flex-shrink: 0; }
+.insight p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+.insight p strong { color: var(--text); }
+
+/* ─── PHASE DIVIDER ─── */
+.phase-div {
+  display: flex; align-items: center; gap: 1rem;
+  margin: 2.5rem 0 1.2rem;
+}
+.phase-div:first-of-type { margin-top: 0; }
+.ph-badge {
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.08em;
+  padding: 0.28rem 0.85rem; border-radius: 999px; white-space: nowrap;
+  display: flex; align-items: center; gap: 0.4rem;
+}
+.ph1 { background: rgba(59,130,246,0.15); color: var(--p1); border: 1px solid rgba(59,130,246,0.35); }
+.ph2 { background: rgba(139,92,246,0.15); color: var(--p2); border: 1px solid rgba(139,92,246,0.35); }
+.ph3 { background: rgba(236,72,153,0.15); color: var(--p3); border: 1px solid rgba(236,72,153,0.35); }
+.ph-title { font-size: 1rem; font-weight: 700; }
+.ph-line { flex: 1; height: 1px; background: var(--border); }
+.ph-time { font-size: 0.78rem; color: var(--muted); white-space: nowrap; }
+.ph-progress { font-size: 0.75rem; font-weight: 700; }
+
+/* ─── TOPIC GRID ─── */
+.topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 1rem; margin-bottom: 0.75rem; }
+
+/* ─── TOPIC CARD ─── */
+.tcard {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 1.2rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+.tcard:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+.tcard.c-sql { border-left: 3px solid var(--sql); }
+.tcard.c-py  { border-left: 3px solid var(--py); }
+.tcard.c-bi  { border-left: 3px solid var(--bi); }
+.tcard-head {
+  display: flex; align-items: center; gap: 0.6rem;
+  margin-bottom: 0.9rem;
+}
+.tcard-head h4 { font-size: 0.88rem; font-weight: 700; flex: 1; }
+.tcard-mini-bar { display: flex; align-items: center; gap: 0.4rem; }
+.mini-pct { font-size: 0.7rem; font-weight: 700; }
+.mini-pct.sql-col { color: var(--sql); }
+.mini-pct.py-col  { color: var(--py); }
+.mini-pct.bi-col  { color: var(--bi); }
+.mini-track { width: 40px; height: 3px; background: var(--border); border-radius: 999px; overflow: hidden; }
+.mini-fill { height: 100%; border-radius: 999px; width: 0%; transition: width 0.5s; }
+.mf-sql { background: var(--sql); }
+.mf-py  { background: var(--py); }
+.mf-bi  { background: var(--bi); }
+
+/* ─── CHECKBOX ITEMS ─── */
+.check-list { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+.check-item-row {
+  display: flex; align-items: flex-start; gap: 0.65rem;
+  padding: 0.4rem 0.5rem; border-radius: 8px;
+  cursor: pointer; transition: background 0.15s;
+  border: 1px solid transparent;
+}
+.check-item-row:hover { background: rgba(255,255,255,0.04); border-color: var(--border); }
+.check-item-row.done { opacity: 0.55; }
+.check-item-row.done .check-text { text-decoration: line-through; color: var(--muted); }
+
+/* custom checkbox */
+.custom-cb { position: relative; flex-shrink: 0; margin-top: 1px; }
+.custom-cb input { opacity: 0; position: absolute; width: 0; height: 0; }
+.cb-box {
+  width: 17px; height: 17px; border-radius: 5px;
+  border: 2px solid var(--border2);
+  background: var(--surface);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; flex-shrink: 0;
+}
+.check-item-row.sql-row .cb-box { border-color: rgba(6,182,212,0.4); }
+.check-item-row.py-row  .cb-box { border-color: rgba(168,85,247,0.4); }
+.check-item-row.bi-row  .cb-box { border-color: rgba(245,158,11,0.4); }
+.cb-box svg { opacity: 0; transform: scale(0.5); transition: all 0.15s; }
+.check-item-row.done .cb-box { border-color: var(--green) !important; background: var(--green-dim); }
+.check-item-row.done .cb-box svg { opacity: 1; transform: scale(1); }
+.check-text { font-size: 0.82rem; color: var(--text); line-height: 1.45; transition: all 0.2s; }
+.check-tag {
+  font-size: 0.62rem; font-weight: 700; padding: 0.1rem 0.35rem; border-radius: 4px;
+  margin-left: auto; flex-shrink: 0; white-space: nowrap; margin-top: 1px;
+}
+.tag-hot  { background: rgba(239,68,68,0.15); color: #f87171; }
+.tag-freq { background: rgba(245,158,11,0.15); color: var(--bi); }
+.tag-new  { background: rgba(16,185,129,0.15); color: var(--green); }
+
+/* ─── MILESTONE BOX ─── */
+.milestone {
+  background: linear-gradient(135deg, rgba(16,185,129,0.07), rgba(6,182,212,0.04));
+  border: 1px solid rgba(16,185,129,0.2); border-radius: 12px;
+  padding: 1.1rem 1.3rem; margin: 0.5rem 0 0;
+}
+.milestone h5 { color: var(--green); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; margin-bottom: 0.75rem; }
+.milestone-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.mchip {
+  font-size: 0.75rem; padding: 0.3rem 0.7rem; border-radius: 999px;
+  background: rgba(16,185,129,0.1); color: var(--green);
+  border: 1px solid rgba(16,185,129,0.2);
+  display: flex; align-items: center; gap: 0.3rem;
+}
+
+/* ─── RESOURCES SECTION ─── */
+.res-section {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 1.3rem; margin: 1.5rem 0;
+}
+.res-section h4 { font-size: 0.78rem; font-weight: 700; color: var(--muted); letter-spacing: 0.07em; margin-bottom: 1.1rem; }
+.res-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.75rem; }
+.res-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 0.9rem 1rem;
+  display: flex; gap: 0.75rem; align-items: flex-start;
+  transition: border-color 0.2s, transform 0.15s;
+  cursor: pointer; text-decoration: none;
+}
+.res-card:hover { border-color: var(--border2); transform: translateY(-1px); }
+.res-icon { font-size: 1.5rem; flex-shrink: 0; }
+.res-body {}
+.res-name { font-size: 0.84rem; font-weight: 700; color: var(--text); }
+.res-desc { font-size: 0.75rem; color: var(--muted); margin-top: 0.2rem; line-height: 1.5; }
+.res-meta { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.4rem; }
+.rtag {
+  font-size: 0.63rem; font-weight: 700; padding: 0.12rem 0.45rem; border-radius: 4px;
+}
+.rtag-free { background: rgba(16,185,129,0.15); color: var(--green); }
+.rtag-paid { background: rgba(245,158,11,0.15); color: var(--bi); }
+.rtag-practice { background: rgba(59,130,246,0.15); color: var(--p1); }
+.rtag-hot { background: rgba(239,68,68,0.15); color: #f87171; }
+.rtag-cert { background: rgba(168,85,247,0.15); color: var(--py); }
+
+/* ─── CODE BLOCK ─── */
+.code-wrap {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  margin: 1rem 0; overflow: hidden;
+}
+.code-title {
+  background: var(--card); border-bottom: 1px solid var(--border);
+  padding: 0.5rem 1rem; font-size: 0.75rem; color: var(--muted); font-weight: 600;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.code-body {
+  padding: 1rem; font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+  font-size: 0.78rem; line-height: 1.7; overflow-x: auto;
+}
+.kw  { color: #ff7b72; }
+.fn  { color: #d2a8ff; }
+.str { color: #a5d6ff; }
+.cm  { color: #5a6478; font-style: italic; }
+.num { color: #79c0ff; }
+.op  { color: #f0883e; }
+
+/* ─── CONFETTI TOAST ─── */
+.toast {
+  position: fixed; bottom: 2rem; right: 2rem;
+  background: var(--card); border: 1px solid var(--green);
+  color: var(--green); border-radius: 12px;
+  padding: 0.9rem 1.3rem; font-size: 0.85rem; font-weight: 600;
+  transform: translateY(100px); opacity: 0;
+  transition: all 0.4s cubic-bezier(.34,1.56,.64,1);
+  z-index: 9999; pointer-events: none; max-width: 280px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* ─── RESET BUTTON ─── */
+.reset-btn {
+  background: none; border: 1px solid var(--border);
+  color: var(--muted); font-size: 0.75rem; padding: 0.3rem 0.7rem;
+  border-radius: 6px; cursor: pointer; transition: all 0.2s;
+}
+.reset-btn:hover { border-color: var(--red); color: var(--red); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 640px) {
+  .panel { padding: 1rem; }
+  .topic-grid { grid-template-columns: 1fr; }
+  .res-grid { grid-template-columns: 1fr; }
+  .stats-bar { flex-direction: column; }
+}
+  .ph0 { background: rgba(16,185,129,0.15); color: var(--green); border: 1px solid rgba(16,185,129,0.35); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-content">
+    <h1>🎯 Sharan's Skill Roadmap 2026</h1>
+    <p class="header-sub">Market-aligned · Interactive checklist · Your personal course</p>
+    <div class="header-badges">
+      <span class="hbadge hbadge-green" id="total-badge">⚡ 0% Complete</span>
+      <span class="hbadge hbadge-sql">🗄️ SQL</span>
+      <span class="hbadge hbadge-py">🐍 Python</span>
+      <span class="hbadge hbadge-bi">📊 BI Tools</span>
+    </div>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-pill">
+    <div class="stat-label"><span>🗄️ SQL</span><span class="stat-pct sql-col" id="pct-sql">0%</span></div>
+    <div class="pbar"><div class="pbar-fill pbar-sql" id="bar-sql"></div></div>
+  </div>
+  <div class="stat-pill">
+    <div class="stat-label"><span>🐍 Python</span><span class="stat-pct py-col" id="pct-py">0%</span></div>
+    <div class="pbar"><div class="pbar-fill pbar-py" id="bar-py"></div></div>
+  </div>
+  <div class="stat-pill">
+    <div class="stat-label"><span>📊 BI Tools</span><span class="stat-pct bi-col" id="pct-bi">0%</span></div>
+    <div class="pbar"><div class="pbar-fill pbar-bi" id="bar-bi"></div></div>
+  </div>
+  <div class="stat-pill">
+    <div class="stat-label"><span>🏆 Overall</span><span class="stat-pct all-col" id="pct-all">0%</span></div>
+    <div class="pbar"><div class="pbar-fill pbar-all" id="bar-all"></div></div>
+  </div>
+  <button class="reset-btn" onclick="resetAll()">↺ Reset All</button>
+</div>
+
+<!-- TAB BAR -->
+<div class="tabs-wrap">
+  <button class="tab-btn t-sql" id="tbtn-sql" onclick="switchTab('sql')">
+    <span class="tab-dot d-sql"></span> SQL
+    <span class="tab-count" id="cnt-sql">0/0</span>
+  </button>
+  <button class="tab-btn" id="tbtn-py" onclick="switchTab('py')">
+    <span class="tab-dot d-py"></span> Python
+    <span class="tab-count" id="cnt-py">0/0</span>
+  </button>
+  <button class="tab-btn" id="tbtn-bi" onclick="switchTab('bi')">
+    <span class="tab-dot d-bi"></span> BI Tools
+    <span class="tab-count" id="cnt-bi">0/0</span>
+  </button>
+</div>
+
+<!-- ══════════════════════════ SQL PANEL ══════════════════════════ -->
+<div class="panel active" id="panel-sql">
+
+  <div class="insight">
+    <span class="insight-icon">📈</span>
+    <p><strong>2026 Market:</strong> SQL is in <strong>90%+ of Data Analyst postings</strong> — it's the single highest-ROI skill to nail. Interviewers at Meta, Amazon, and Google test window functions and CTEs in almost every technical screen. StrataScratch and DataLemur pull from real interview banks. <strong>Master Phase 2 before touching anything else.</strong></p>
+  </div>
+
+  <!-- PHASE 1 -->
+
+  <!-- PHASE 0 -->
+  <div class="phase-div">
+    <span class="ph-badge ph0">PHASE 0</span>
+    <span class="ph-title">Absolute Basics — Start Here</span>
+    <span class="ph-line"></span>
+    <span class="ph-time">⏱ Day 1–5 · No experience needed</span>
+  </div>
+
+  <div class="topic-grid">
+    <div class="tcard c-sql">
+      <div class="tcard-head">
+        <h4>🗄️ What is SQL &amp; Databases?</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct sql-col" id="mp-sql-what">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-sql" id="mbar-sql-what"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Understand what a relational database is (tables, rows, columns)</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">What SQL stands for and why every company uses it</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Install DB Browser for SQLite (free, beginner-friendly) OR use SQLiteOnline.com</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Primary key vs foreign key — what they are and why they matter</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Data types: INT, VARCHAR, DATE, FLOAT, BOOLEAN</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tcard c-sql">
+      <div class="tcard-head">
+        <h4>📋 SELECT — Reading Data</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct sql-col" id="mp-sql-select">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-sql" id="mbar-sql-select"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">SELECT * FROM table — your very first query</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">SELECT specific columns (avoid SELECT * in real work)</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Column aliases with AS (SELECT name AS customer_name)</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">DISTINCT — remove duplicates from results</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">LIMIT / TOP — get only N rows</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tcard c-sql">
+      <div class="tcard-head">
+        <h4>🔍 WHERE, ORDER BY, NULL</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct sql-col" id="mp-sql-where">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-sql" id="mbar-sql-where"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">WHERE clause with =, !=, &gt;, &lt;, &gt;=, &lt;=</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">AND, OR, NOT — combining conditions</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">IN (...) and BETWEEN ... AND ... shortcuts</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">LIKE with % and _ wildcards (pattern matching)</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">ORDER BY ASC / DESC — sorting results</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">IS NULL / IS NOT NULL — handling missing data</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="res-section">
+    <h4>🎯 WHERE TO START (Absolute Beginner)</h4>
+    <div class="res-grid">
+      <a class="res-card" href="https://sqlzoo.net/wiki/SELECT_basics" target="_blank">
+        <span class="res-icon">🌍</span>
+        <div class="res-body">
+          <div class="res-name">SQLZoo — SELECT Basics</div>
+          <div class="res-desc">Write SQL directly in the browser. Zero setup. The SELECT chapter is the perfect Day 1 exercise.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-hot">🔥 Start Here</span></div>
+        </div>
+      </a>
+      <a class="res-card" href="https://www.w3schools.com/sql/" target="_blank">
+        <span class="res-icon">📖</span>
+        <div class="res-body">
+          <div class="res-name">W3Schools SQL</div>
+          <div class="res-desc">Best quick reference for every SQL keyword. Use as a lookup — not a course. Bookmark it.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-practice">REFERENCE</span></div>
+        </div>
+      </a>
+      <a class="res-card" href="https://www.khanacademy.org/computing/computer-programming/sql" target="_blank">
+        <span class="res-icon">🎓</span>
+        <div class="res-body">
+          <div class="res-name">Khan Academy SQL</div>
+          <div class="res-desc">Friendly video + exercise course for absolute beginners. Covers SELECT through JOINs with clear explanations.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-practice">BEGINNER</span></div>
+        </div>
+      </a>
+      <a class="res-card" href="https://sqliteonline.com" target="_blank">
+        <span class="res-icon">💻</span>
+        <div class="res-body">
+          <div class="res-name">SQLiteOnline.com</div>
+          <div class="res-desc">Run SQL in the browser — no install. Upload any CSV and query it immediately. Perfect sandbox.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-practice">SANDBOX</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+
+  <div class="phase-div">
+    <span class="ph-badge ph1">PHASE 1</span>
+    <span class="ph-title">Foundation — The Must-Knows</span>
+    <span class="ph-line"></span>
+    <span class="ph-time">⏱ Week 1–2 · Mon focus</span>
+  </div>
+
+  <div class="topic-grid">
+    <div class="tcard c-sql">
+      <div class="tcard-head">
+        <h4>🔗 JOINs — All Types</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct sql-col" id="mp-sql-joins">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-sql" id="mbar-sql-joins"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">INNER, LEFT, RIGHT, FULL OUTER — when to use each</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Self JOIN — employees reporting to managers</span>
+          <span class="check-tag tag-freq">📌 FREQ</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">NULL behavior in LEFT JOINs (most common gotcha)</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">CROSS JOIN and Cartesian products</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Multi-table JOINs — 3+ tables in one query</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tcard c-sql">
+      <div class="tcard-head">
+        <h4>📦 GROUP BY & Aggregations</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct sql-col" id="mp-sql-agg">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-sql" id="mbar-sql-agg"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">HAVING vs WHERE — always asked in interviews</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">COUNT(*) vs COUNT(col) — the NULL trap</span>
+          <span class="check-tag tag-freq">📌 FREQ</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">GROUP BY multiple columns</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">DISTINCT vs GROUP BY trade-offs</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">CASE WHEN for conditional aggregation</span>
+          <span class="check-tag tag-freq">📌 FREQ</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tcard c-sql">
+      <div class="tcard-head">
+        <h4>🎭 Subqueries & Filtering</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct sql-col" id="mp-sql-sub">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-sql" id="mbar-sql-sub"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">IN, NOT IN, EXISTS, NOT EXISTS — when each is better</span>
+          <span class="check-tag tag-freq">📌 FREQ</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Correlated vs non-correlated subqueries</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Date filtering: BETWEEN, DATEDIFF, DATE_TRUNC</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">String functions: LIKE, TRIM, UPPER, CONCAT</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="phase-div">
+    <span class="ph-badge ph2">PHASE 2</span>
+    <span class="ph-title">Interview-Ready — The Real Differentiator</span>
+    <span class="ph-line"></span>
+    <span class="ph-time">⏱ Week 3–5</span>
+  </div>
+
+  <div class="topic-grid">
+    <div class="tcard c-sql">
+      <div class="tcard-head">
+        <h4>🪟 Window Functions — #1 Priority</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct sql-col" id="mp-sql-win">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-sql" id="mbar-sql-win"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">ROW_NUMBER, RANK, DENSE_RANK — differences matter</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">LAG() and LEAD() — time-series comparisons</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">SUM/AVG OVER with PARTITION BY</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">ROWS BETWEEN for rolling 7-day / 30-day windows</span>
+          <span class="check-tag tag-freq">📌 FREQ</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">NTILE() for percentile bucketing</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">FIRST_VALUE, LAST_VALUE</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tcard c-sql">
+      <div class="tcard-head">
+        <h4>🔄 CTEs (Common Table Expressions)</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct sql-col" id="mp-sql-cte">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-sql" id="mbar-sql-cte"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">WITH clause — multiple CTEs chained</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Recursive CTEs — org hierarchies, date series</span>
+          <span class="check-tag tag-freq">📌 FREQ</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">CTE vs subquery vs temp table — when each</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Replacing nested subqueries for readability</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tcard c-sql">
+      <div class="tcard-head">
+        <h4>⚡ Query Performance</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct sql-col" id="mp-sql-perf">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-sql" id="mbar-sql-perf"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">EXPLAIN / EXPLAIN ANALYZE — read query plans</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Index usage — when they help vs hurt</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">PIVOT / UNPIVOT — wide to long format</span>
+          <span class="check-tag tag-freq">📌 FREQ</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">dbt basics — models, tests, documentation</span>
+          <span class="check-tag tag-new">✨ NEW</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div class="phase-div">
+    <span class="ph-badge ph3">PHASE 3</span>
+    <span class="ph-title">Senior-Level / Cloud SQL</span>
+    <span class="ph-line"></span>
+    <span class="ph-time">⏱ Week 6+</span>
+  </div>
+
+  <div class="topic-grid">
+    <div class="tcard c-sql">
+      <div class="tcard-head">
+        <h4>🏗️ Data Modeling</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct sql-col" id="mp-sql-model">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-sql" id="mbar-sql-model"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Star schema vs snowflake schema design</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Fact vs dimension tables</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">SCD Type 1, 2, 3 — slowly changing dimensions</span>
+        </li>
+        <li class="check-item-row sql-row" onclick="toggle(this,'sql')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">BigQuery / Snowflake advanced features</span>
+          <span class="check-tag tag-new">✨ NEW</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SQL RESOURCES -->
+  <div class="res-section">
+    <h4>🎯 WHERE TO PRACTICE SQL — In This Exact Order</h4>
+    <div class="res-grid">
+      <a class="res-card" href="https://datalemur.com" target="_blank">
+        <span class="res-icon">🐋</span>
+        <div class="res-body">
+          <div class="res-name">DataLemur</div>
+          <div class="res-desc">Real Meta, Google, Amazon interview SQL questions. Best resource for DA interviews right now. Do 1 per day.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-hot">🔥 #1 Pick</span></div>
+        </div>
+      </a>
+      <a class="res-card" href="https://platform.stratascratch.com/coding" target="_blank">
+        <span class="res-icon">⚔️</span>
+        <div class="res-body">
+          <div class="res-name">StrataScratch</div>
+          <div class="res-desc">Company-tagged problems (Netflix, Airbnb, Uber). Filter by company you're applying to. Do 5 Medium/week.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE TIER</span><span class="rtag rtag-practice">PRACTICE</span></div>
+        </div>
+      </a>
+      <a class="res-card" href="https://leetcode.com/problemset/database/" target="_blank">
+        <span class="res-icon">🧩</span>
+        <div class="res-body">
+          <div class="res-name">LeetCode SQL</div>
+          <div class="res-desc">Do all 50 Easy first, then Medium. Filter by "Database" tag. Great for FAANG prep.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-practice">INTERVIEW PREP</span></div>
+        </div>
+      </a>
+      <a class="res-card" href="https://mode.com/sql-tutorial/" target="_blank">
+        <span class="res-icon">📚</span>
+        <div class="res-body">
+          <div class="res-name">Mode SQL Tutorial</div>
+          <div class="res-desc">Best free structured SQL course online. The window functions section alone is worth it.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-practice">STRUCTURED</span></div>
+        </div>
+      </a>
+      <a class="res-card" href="https://sqlzoo.net" target="_blank">
+        <span class="res-icon">🌍</span>
+        <div class="res-body">
+          <div class="res-name">SQLZoo</div>
+          <div class="res-desc">Interactive SQL in the browser. Great for total beginners or refreshing basics fast.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-practice">BEGINNER</span></div>
+        </div>
+      </a>
+      <a class="res-card" href="https://pgexercises.com" target="_blank">
+        <span class="res-icon">🐘</span>
+        <div class="res-body">
+          <div class="res-name">PostgreSQL Exercises</div>
+          <div class="res-desc">200+ PostgreSQL exercises with solutions explained. Best for deep SQL mastery.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-practice">DEEP DIVE</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="milestone">
+    <h5>✅ SQL INTERVIEW-READY CHECKPOINT</h5>
+    <div class="milestone-chips">
+      <span class="mchip">✓ Solve window function problems without Googling</span>
+      <span class="mchip">✓ Write recursive CTEs from scratch</span>
+      <span class="mchip">✓ 30+ StrataScratch Medium done</span>
+      <span class="mchip">✓ Explain query optimization clearly</span>
+      <span class="mchip">✓ 1 DataLemur problem per day habit locked in</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════ PYTHON PANEL ══════════════════════════ -->
+<div class="panel" id="panel-py">
+
+  <div class="insight py-ins">
+    <span class="insight-icon">🐍</span>
+    <p><strong>2026 Market:</strong> For Data Analyst roles, Python = <strong>Pandas + Seaborn + Stats</strong>. For AI/ML, add Scikit-learn, PyTorch, and HuggingFace. <strong>Don't skip to PyTorch before Pandas is locked in.</strong> 85% of DA take-home tests are Pandas + visualization. Kaggle Learn is the fastest free path — each course is 4–6 hours with certificates.</p>
+  </div>
+
+
+  <!-- PHASE 0 -->
+  <div class="phase-div">
+    <span class="ph-badge ph0">PHASE 0</span>
+    <span class="ph-title">Absolute Basics — Python from Zero</span>
+    <span class="ph-line"></span>
+    <span class="ph-time">⏱ Day 1–7 · No coding needed</span>
+  </div>
+
+  <div class="topic-grid">
+    <div class="tcard c-py">
+      <div class="tcard-head">
+        <h4>⚙️ Setup &amp; Environment</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct py-col" id="mp-py-setup">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-py" id="mbar-py-setup"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Install Anaconda (bundles Python + Jupyter + pandas — easiest start)</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Open Jupyter Notebook — run your first cell: print("Hello, Sharan!")</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Install VS Code + Python extension (for .py scripts)</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">pip install basics: pip install pandas matplotlib seaborn</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Understand cell types in Jupyter (Code vs Markdown)</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tcard c-py">
+      <div class="tcard-head">
+        <h4>🧱 Variables &amp; Data Types</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct py-col" id="mp-py-vars">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-py" id="mbar-py-vars"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">int, float, str, bool — Python's core types</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Variable assignment: name = "Sharan", age = 24</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">String operations: .upper(), .lower(), .split(), f-strings</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">type() and type conversion: int("5"), str(100), float("3.14")</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">None — Python's version of NULL</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tcard c-py">
+      <div class="tcard-head">
+        <h4>📦 Lists, Dicts &amp; Tuples</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct py-col" id="mp-py-structs">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-py" id="mbar-py-structs"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">List: [1, 2, 3] — indexing, slicing, append, remove</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Dictionary: {"name": "Sharan", "age": 24} — keys and values</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Tuple: (x, y) — immutable, used for fixed pairs</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">List comprehensions: [x*2 for x in nums if x &gt; 0]</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">len(), sorted(), zip(), enumerate() — essential builtins</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tcard c-py">
+      <div class="tcard-head">
+        <h4>🔁 Control Flow &amp; Functions</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct py-col" id="mp-py-flow">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-py" id="mbar-py-flow"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">if / elif / else — conditional logic</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">for loop — iterate over lists, ranges, dicts</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">while loop + break / continue</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">def my_function(param): ... return value</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Default parameters &amp; keyword arguments</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">try / except — basic error handling</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="res-section">
+    <h4>🎯 WHERE TO START (Python Beginner)</h4>
+    <div class="res-grid">
+      <a class="res-card" href="https://www.kaggle.com/learn/python" target="_blank">
+        <span class="res-icon">🧪</span>
+        <div class="res-body">
+          <div class="res-name">Kaggle Learn — Python</div>
+          <div class="res-desc">Best beginner Python course for data people. 5 hours, in-browser coding, free certificate. Do this first.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-hot">🔥 Start Here</span></div>
+        </div>
+      </a>
+      <a class="res-card" href="https://cs50.harvard.edu/python/" target="_blank">
+        <span class="res-icon">🎓</span>
+        <div class="res-body">
+          <div class="res-name">CS50P — Harvard Python</div>
+          <div class="res-desc">Harvard's free Python course. More rigorous. Great if you want strong fundamentals before jumping to data.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-practice">STRUCTURED</span></div>
+        </div>
+      </a>
+      <a class="res-card" href="https://www.youtube.com/watch?v=rfscVS0vtbw" target="_blank">
+        <span class="res-icon">📺</span>
+        <div class="res-body">
+          <div class="res-name">Python for Beginners (freeCodeCamp)</div>
+          <div class="res-desc">4-hour full Python crash course. Great if you prefer watching first, then coding.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-practice">VIDEO</span></div>
+        </div>
+      </a>
+      <a class="res-card" href="https://colab.research.google.com" target="_blank">
+        <span class="res-icon">☁️</span>
+        <div class="res-body">
+          <div class="res-name">Google Colab</div>
+          <div class="res-desc">Free Jupyter notebook in the cloud. No install needed — just open and start coding. Best for beginners.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-practice">NO SETUP</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+
+  <div class="phase-div">
+    <span class="ph-badge ph1">PHASE 1</span>
+    <span class="ph-title">Pandas Mastery — Your Core DA Tool</span>
+    <span class="ph-line"></span>
+    <span class="ph-time">⏱ Week 1–3 · Tue focus</span>
+  </div>
+
+  <div class="topic-grid">
+    <div class="tcard c-py">
+      <div class="tcard-head">
+        <h4>🐼 Pandas — Data Manipulation</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct py-col" id="mp-py-pandas">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-py" id="mbar-py-pandas"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">loc vs iloc — indexing done right</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">groupby() + agg() — SQL GROUP BY equivalent</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">merge() — all join types in Pandas</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">pivot_table() vs crosstab()</span>
+          <span class="check-tag tag-freq">📌 FREQ</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">apply() + lambda for custom transforms</span>
+          <span class="check-tag tag-freq">📌 FREQ</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">NaN handling: fillna, dropna, interpolate</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">DateTime: pd.to_datetime, resample, dt accessor</span>
+          <span class="check-tag tag-freq">📌 FREQ</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Method chaining — clean, readable code style</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tcard c-py">
+      <div class="tcard-head">
+        <h4>📊 Visualization</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct py-col" id="mp-py-viz">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-py" id="mbar-py-viz"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Matplotlib: subplots, axes, figure config</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Seaborn: heatmaps, pairplots, boxplots, violin</span>
+          <span class="check-tag tag-freq">📌 FREQ</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Plotly Express: interactive charts for portfolio</span>
+          <span class="check-tag tag-new">✨ HOT</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Know which chart type to use when (bar vs line vs scatter)</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Streamlit — turn notebooks into shareable apps</span>
+          <span class="check-tag tag-new">✨ NEW</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tcard c-py">
+      <div class="tcard-head">
+        <h4>🧹 Data Cleaning (Real Job Skill)</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct py-col" id="mp-py-clean">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-py" id="mbar-py-clean"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Detect and handle duplicates</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Outlier detection: IQR method and Z-score</span>
+          <span class="check-tag tag-freq">📌 FREQ</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Regex for messy string columns</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Reshaping: melt(), stack(), unstack()</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="phase-div">
+    <span class="ph-badge ph2">PHASE 2</span>
+    <span class="ph-title">Statistics + ML Fundamentals</span>
+    <span class="ph-line"></span>
+    <span class="ph-time">⏱ Week 4–7</span>
+  </div>
+
+  <div class="topic-grid">
+    <div class="tcard c-py">
+      <div class="tcard-head">
+        <h4>📐 Statistics (Non-Negotiable for DA)</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct py-col" id="mp-py-stats">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-py" id="mbar-py-stats"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Hypothesis testing: t-test, chi-square, ANOVA</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">A/B testing design: sample size, power, significance</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">p-values, confidence intervals — explain to non-tech</span>
+          <span class="check-tag tag-freq">📌 FREQ</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Correlation vs causation — always asked</span>
+          <span class="check-tag tag-freq">📌 FREQ</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Central Limit Theorem — intuition, not formula</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tcard c-py">
+      <div class="tcard-head">
+        <h4>🤖 ML with Scikit-learn</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct py-col" id="mp-py-ml">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-py" id="mbar-py-ml"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Linear & Logistic Regression — internals matter</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Random Forest → XGBoost → LightGBM</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Train/val/test split → cross-validation → GridSearchCV</span>
+          <span class="check-tag tag-freq">📌 FREQ</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Feature engineering: encoding, scaling, imputation</span>
+          <span class="check-tag tag-freq">📌 FREQ</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Eval metrics: ROC-AUC, precision/recall, F1, RMSE</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Pipelines — reproducible, clean ML code</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="phase-div">
+    <span class="ph-badge ph3">PHASE 3</span>
+    <span class="ph-title">Deep Learning + LLMs — Your AI/ML Edge</span>
+    <span class="ph-line"></span>
+    <span class="ph-time">⏱ Week 8+ · Fri builds</span>
+  </div>
+
+  <div class="topic-grid">
+    <div class="tcard c-py">
+      <div class="tcard-head">
+        <h4>🧠 PyTorch Fundamentals</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct py-col" id="mp-py-torch">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-py" id="mbar-py-torch"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Tensors, autograd, backprop from scratch</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Custom Dataset + DataLoader pattern</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Transfer learning with pretrained models</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">QLoRA / LoRA fine-tuning (you've done this!)</span>
+          <span class="check-tag tag-new">✨ DONE</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">RAG pipeline: embeddings + vector DB + retrieval</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+        <li class="check-item-row py-row" onclick="toggle(this,'py')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">FastAPI + Docker for model serving</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PYTHON RESOURCES -->
+  <div class="res-section">
+    <h4>🎯 WHERE TO PRACTICE PYTHON</h4>
+    <div class="res-grid">
+      <a class="res-card" href="https://www.kaggle.com/learn" target="_blank">
+        <span class="res-icon">🧪</span>
+        <div class="res-body">
+          <div class="res-name">Kaggle Learn</div>
+          <div class="res-desc">Free courses: Pandas, Data Viz, ML, Feature Eng. Each is 4–6 hrs with certificates. Start here.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-hot">🔥 Best Start</span></div>
+        </div>
+      </a>
+      <a class="res-card" href="https://www.youtube.com/@statquest" target="_blank">
+        <span class="res-icon">📹</span>
+        <div class="res-body">
+          <div class="res-name">StatQuest (YouTube)</div>
+          <div class="res-desc">Josh Starmer explains ML and stats visually. Best free content period. Watch ML playlist first.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-hot">🔥 ML + Stats</span></div>
+        </div>
+      </a>
+      <a class="res-card" href="https://www.kaggle.com/competitions" target="_blank">
+        <span class="res-icon">🏆</span>
+        <div class="res-body">
+          <div class="res-name">Kaggle Competitions</div>
+          <div class="res-desc">Join Titanic, House Prices first. Then tabular competitions. Forces real problem-solving.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-practice">PRACTICE</span></div>
+        </div>
+      </a>
+      <a class="res-card" href="https://www.youtube.com/@AndrejKarpathy" target="_blank">
+        <span class="res-icon">🧠</span>
+        <div class="res-body">
+          <div class="res-name">Andrej Karpathy (YouTube)</div>
+          <div class="res-desc">"Neural Networks: Zero to Hero" playlist. Best deep learning course, period. Free.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-hot">🔥 Deep Learning</span></div>
+        </div>
+      </a>
+      <a class="res-card" href="https://huggingface.co/learn" target="_blank">
+        <span class="res-icon">🤗</span>
+        <div class="res-body">
+          <div class="res-name">HuggingFace Courses</div>
+          <div class="res-desc">NLP, Diffusion Models, RL courses — all free. Official HF content with code notebooks.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-new">✨ LLMs</span></div>
+        </div>
+      </a>
+      <a class="res-card" href="https://leetcode.com/problemset/" target="_blank">
+        <span class="res-icon">⚡</span>
+        <div class="res-body">
+          <div class="res-name">LeetCode (Python)</div>
+          <div class="res-desc">For SWE/DS roles. Focus on Array, Hash Map, Sliding Window. Do 2 Easy/week minimum.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE TIER</span><span class="rtag rtag-practice">CODING INTERVIEW</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════ BI PANEL ══════════════════════════ -->
+<div class="panel" id="panel-bi">
+
+  <div class="insight bi-ins">
+    <span class="insight-icon">📊</span>
+    <p><strong>2026 Market:</strong> Power BI + Tableau appear in <strong>60%+ of DA job postings</strong>. Most candidates know SQL and Python but can't build a clean business dashboard. <strong>This is your #1 differentiator.</strong> One strong Tableau Public dashboard beats a dozen mediocre ones. PL-300 certification alone adds 15–20% to interview callback rates.</p>
+  </div>
+
+
+  <!-- PHASE 0 -->
+  <div class="phase-div">
+    <span class="ph-badge ph0">PHASE 0</span>
+    <span class="ph-title">Excel First — Every BI Tool Starts Here</span>
+    <span class="ph-line"></span>
+    <span class="ph-time">⏱ Day 1–5 · The universal foundation</span>
+  </div>
+
+  <div class="res-section" style="margin-bottom:1.2rem;">
+    <h4>💡 WHY START WITH EXCEL?</h4>
+    <p style="font-size:0.85rem;color:var(--muted);line-height:1.7;padding:0 0.25rem;">Excel shares the same mental model as Power BI and Tableau — rows, columns, filters, pivots. 90% of business analysts use Excel daily. If you can build a pivot table in Excel, learning Power BI becomes 3x faster. Don't skip this even if it feels basic.</p>
+  </div>
+
+  <div class="topic-grid">
+    <div class="tcard c-bi">
+      <div class="tcard-head">
+        <h4>📊 Excel Essentials</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct bi-col" id="mp-bi-excel">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-bi" id="mbar-bi-excel"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">SUM, AVERAGE, COUNT, MIN, MAX — core formulas</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">IF, COUNTIF, SUMIF, AVERAGEIF — conditional formulas</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">VLOOKUP / XLOOKUP — the most-used Excel skill in business</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">INDEX / MATCH — more powerful than VLOOKUP</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Absolute vs relative cell references ($A$1 vs A1)</span>
+          <span class="check-tag tag-freq">📌 FREQ</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Text functions: TRIM, LEFT, RIGHT, MID, CONCATENATE</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Conditional formatting — visual data analysis</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tcard c-bi">
+      <div class="tcard-head">
+        <h4>🔄 Pivot Tables (Gateway to BI)</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct bi-col" id="mp-bi-pivot">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-bi" id="mbar-bi-pivot"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Create a pivot table from a flat data table</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Rows, Columns, Values, Filters — the four pivot areas</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Group by date (year/month/quarter) in pivot</span>
+          <span class="check-tag tag-freq">📌 FREQ</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Add slicers for interactive filtering</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Build a chart from a pivot table (bar, line, combo)</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Create a simple 1-page Excel dashboard with charts + slicers</span>
+          <span class="check-tag tag-hot">🏆 MILESTONE</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tcard c-bi">
+      <div class="tcard-head">
+        <h4>🚀 Power BI First Look</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct bi-col" id="mp-bi-pbi-intro">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-bi" id="mbar-bi-pbi-intro"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Download Power BI Desktop (free)</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Understand the 3 views: Report / Data / Model</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Load a CSV file and build your first visual (bar chart)</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Add a slicer and see cross-filtering in action</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Write your first DAX measure: Total Sales = SUM(Sales[Amount])</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="res-section">
+    <h4>🎯 WHERE TO START (BI Beginner)</h4>
+    <div class="res-grid">
+      <a class="res-card" href="https://www.youtube.com/watch?v=v2oNWja7M2E" target="_blank">
+        <span class="res-icon">📺</span>
+        <div class="res-body">
+          <div class="res-name">Excel Pivot Tables in 20 Min</div>
+          <div class="res-desc">Best pivot table crash course on YouTube by Kevin Stratvert. Covers everything you need in one sitting.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-hot">🔥 Start Here</span></div>
+        </div>
+      </a>
+      <a class="res-card" href="https://www.youtube.com/watch?v=AGrl-H87pRU" target="_blank">
+        <span class="res-icon">📺</span>
+        <div class="res-body">
+          <div class="res-name">Power BI for Beginners (full course)</div>
+          <div class="res-desc">Guy in a Cube beginner series. Takes you from zero to your first real dashboard. Watch before Microsoft Learn.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-practice">BEGINNER</span></div>
+        </div>
+      </a>
+      <a class="res-card" href="https://chandoo.org/wp/learn-excel/" target="_blank">
+        <span class="res-icon">🟢</span>
+        <div class="res-body">
+          <div class="res-name">Chandoo.org</div>
+          <div class="res-desc">The best Excel learning site. Clear tutorials on every Excel topic. Great for formulas and dashboards.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-practice">EXCEL</span></div>
+        </div>
+      </a>
+      <a class="res-card" href="https://www.exceljet.net/formulas" target="_blank">
+        <span class="res-icon">⚡</span>
+        <div class="res-body">
+          <div class="res-name">ExcelJet Formula Reference</div>
+          <div class="res-desc">Every Excel formula explained with examples. Bookmark — you'll use this every week.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-practice">REFERENCE</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+
+  <div class="phase-div">
+    <span class="ph-badge ph1">PHASE 1</span>
+    <span class="ph-title">Power BI — Foundation to Functional</span>
+    <span class="ph-line"></span>
+    <span class="ph-time">⏱ Week 1–3 · Wed focus</span>
+  </div>
+
+  <div class="topic-grid">
+    <div class="tcard c-bi">
+      <div class="tcard-head">
+        <h4>🔌 Power Query (ETL Layer)</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct bi-col" id="mp-bi-pq">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-bi" id="mbar-bi-pq"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Connect to Excel, CSV, SQL, web APIs</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Power Query M: merge, append, conditional columns</span>
+          <span class="check-tag tag-freq">📌 FREQ</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Handling errors and null values in M</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Parameterized queries for dynamic sources</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tcard c-bi">
+      <div class="tcard-head">
+        <h4>📐 Data Modeling</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct bi-col" id="mp-bi-model">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-bi" id="mbar-bi-model"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Star schema in Power BI — fact + dim tables</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Relationships: one-to-many, many-to-many</span>
+          <span class="check-tag tag-freq">📌 FREQ</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Date table — always create a dedicated one</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Cross-filter direction — single vs bidirectional</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tcard c-bi">
+      <div class="tcard-head">
+        <h4>🧮 DAX — The Core Language</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct bi-col" id="mp-bi-dax">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-bi" id="mbar-bi-dax"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Calculated columns vs Measures — know cold</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">CALCULATE() — the most important DAX function</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Time intelligence: YTD, MTD, SAMEPERIODLASTYEAR</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">FILTER(), ALL(), ALLEXCEPT() — context manipulation</span>
+          <span class="check-tag tag-freq">📌 FREQ</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">RANKX() for dynamic ranking</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">VAR … RETURN pattern for readable DAX</span>
+          <span class="check-tag tag-freq">📌 FREQ</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="phase-div">
+    <span class="ph-badge ph2">PHASE 2</span>
+    <span class="ph-title">Tableau — Second Tool, Fast Track</span>
+    <span class="ph-line"></span>
+    <span class="ph-time">⏱ Week 4–6</span>
+  </div>
+
+  <div class="topic-grid">
+    <div class="tcard c-bi">
+      <div class="tcard-head">
+        <h4>🎨 Tableau Core</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct bi-col" id="mp-bi-tableau">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-bi" id="mbar-bi-tableau"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">LOD Expressions: FIXED, INCLUDE, EXCLUDE</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Table Calculations: WINDOW_SUM, RANK, RUNNING_SUM</span>
+          <span class="check-tag tag-freq">📌 FREQ</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Parameters + calculated fields for dynamic views</span>
+          <span class="check-tag tag-hot">🔥 HOT</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Dashboard actions: filter, highlight, URL</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Tooltip design — mini dashboards in tooltips</span>
+          <span class="check-tag tag-new">✨ COOL</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Publish to Tableau Public — free live portfolio</span>
+          <span class="check-tag tag-hot">🔥 MUST DO</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tcard c-bi">
+      <div class="tcard-head">
+        <h4>🎨 Dashboard Design Principles</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct bi-col" id="mp-bi-design">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-bi" id="mbar-bi-design"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Z-pattern / F-pattern — where eyes go first</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Bar > Pie, always. Know why.</span>
+          <span class="check-tag tag-freq">📌 FREQ</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">KPI cards at top — answer the main question first</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Color only for meaning, not decoration</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="phase-div">
+    <span class="ph-badge ph3">PHASE 3</span>
+    <span class="ph-title">PL-300 Certification + Cloud BI</span>
+    <span class="ph-line"></span>
+    <span class="ph-time">⏱ Week 8+ · Biggest resume boost</span>
+  </div>
+
+  <div class="topic-grid">
+    <div class="tcard c-bi">
+      <div class="tcard-head">
+        <h4>🏆 Microsoft PL-300 Exam</h4>
+        <div class="tcard-mini-bar">
+          <span class="mini-pct bi-col" id="mp-bi-cert">0%</span>
+          <div class="mini-track"><div class="mini-fill mf-bi" id="mbar-bi-cert"></div></div>
+        </div>
+      </div>
+      <ul class="check-list">
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Complete Microsoft Learn PL-300 learning path</span>
+          <span class="check-tag tag-hot">🔥 CERT</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Take 3 practice exams (Whizlabs/MeasureUp)</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Pass PL-300 exam (~$165, high ROI)</span>
+          <span class="check-tag tag-hot">🏆 MILESTONE</span>
+        </li>
+        <li class="check-item-row bi-row" onclick="toggle(this,'bi')">
+          <label class="custom-cb"><input type="checkbox"><div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L4 7L9 1" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></label>
+          <span class="check-text">Add badge to LinkedIn + resume</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- BI RESOURCES -->
+  <div class="res-section">
+    <h4>🎯 WHERE TO LEARN & PRACTICE BI TOOLS</h4>
+    <div class="res-grid">
+      <a class="res-card" href="https://learn.microsoft.com/en-us/training/paths/get-started-power-bi/" target="_blank">
+        <span class="res-icon">🎓</span>
+        <div class="res-body">
+          <div class="res-name">Microsoft Learn (PL-300 Path)</div>
+          <div class="res-desc">Official free learning path. ~20 hours. PL-300 exam prep built in. Start here for Power BI.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-cert">PL-300 PREP</span></div>
+        </div>
+      </a>
+      <a class="res-card" href="https://www.youtube.com/@GuyInACube" target="_blank">
+        <span class="res-icon">📺</span>
+        <div class="res-body">
+          <div class="res-name">Guy in a Cube</div>
+          <div class="res-desc">Best Power BI YouTube channel. Watch the DAX playlist first, then the M playlist.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-hot">🔥 DAX</span></div>
+        </div>
+      </a>
+      <a class="res-card" href="https://public.tableau.com/app/discover" target="_blank">
+        <span class="res-icon">🌐</span>
+        <div class="res-body">
+          <div class="res-name">Tableau Public Gallery</div>
+          <div class="res-desc">Study top-rated dashboards. Click "Download" to open and reverse-engineer their structure.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-practice">STUDY</span></div>
+        </div>
+      </a>
+      <a class="res-card" href="https://www.makeovermonday.co.uk" target="_blank">
+        <span class="res-icon">🏅</span>
+        <div class="res-body">
+          <div class="res-name">#MakeoverMonday</div>
+          <div class="res-desc">Weekly Tableau challenge with real datasets and community feedback. Best practice for dashboard design.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-practice">WEEKLY CHALLENGE</span></div>
+        </div>
+      </a>
+      <a class="res-card" href="https://www.sqlbi.com/articles/" target="_blank">
+        <span class="res-icon">📖</span>
+        <div class="res-body">
+          <div class="res-name">SQLBI (DAX Bible)</div>
+          <div class="res-desc">The definitive DAX reference site by Marco Russo & Alberto Ferrari. Bookmark every article on CALCULATE.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-hot">🔥 DAX BIBLE</span></div>
+        </div>
+      </a>
+      <a class="res-card" href="https://www.tableau.com/learn/training" target="_blank">
+        <span class="res-icon">🎬</span>
+        <div class="res-body">
+          <div class="res-name">Tableau Official Training</div>
+          <div class="res-desc">Free video training from Tableau. Great for structured learning before jumping into projects.</div>
+          <div class="res-meta"><span class="rtag rtag-free">FREE</span><span class="rtag rtag-practice">OFFICIAL</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="milestone">
+    <h5>✅ BI INTERVIEW-READY CHECKPOINT</h5>
+    <div class="milestone-chips">
+      <span class="mchip">✓ Build 3-page sales dashboard from scratch</span>
+      <span class="mchip">✓ Write YoY, MTD, running total DAX blind</span>
+      <span class="mchip">✓ 1 Tableau Public dashboard published</span>
+      <span class="mchip">✓ PL-300 practice exam score above 80%</span>
+      <span class="mchip">✓ Explain LOD expressions clearly</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── STATE ───
+const STORE_KEY = 'sharan_roadmap_v3';
+let state = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
+
+// ─── CARD REGISTRY (card-id → skill)
+const cardMap = {
+  'sql-joins':   'sql', 'sql-agg':    'sql', 'sql-sub':   'sql',
+  'sql-win':     'sql', 'sql-cte':    'sql', 'sql-perf':  'sql',
+  'sql-model':   'sql',
+  'py-pandas':   'py',  'py-viz':     'py',  'py-clean':  'py',
+  'py-stats':    'py',  'py-ml':      'py',  'py-torch':  'py',
+  'bi-pq':       'bi',  'bi-model':   'bi',  'bi-dax':    'bi',
+  'bi-tableau':  'bi',  'bi-design':  'bi',  'bi-cert':   'bi',
+};
+
+// ─── INIT ───
+function init() {
+  const allRows = document.querySelectorAll('.check-item-row');
+  allRows.forEach((row, idx) => {
+    const id = getRowId(row);
+    if (state[id]) {
+      row.classList.add('done');
+      row.querySelector('input').checked = true;
+    }
+  });
+  updateAll();
+}
+
+function getRowId(row) {
+  // use text content as key
+  return btoa(encodeURIComponent(row.querySelector('.check-text').textContent.trim())).slice(0,32);
+}
+
+// ─── TOGGLE ───
+function toggle(row, skill) {
+  const id = getRowId(row);
+  const isDone = !row.classList.contains('done');
+  if (isDone) {
+    row.classList.add('done');
+    row.querySelector('input').checked = true;
+    state[id] = true;
+  } else {
+    row.classList.remove('done');
+    row.querySelector('input').checked = false;
+    delete state[id];
+  }
+  localStorage.setItem(STORE_KEY, JSON.stringify(state));
+  updateAll();
+  if (isDone) showToast();
+}
+
+// ─── UPDATE BARS ───
+function updateAll() {
+  const skills = ['sql','py','bi'];
+  let totalDone = 0, totalAll = 0;
+
+  skills.forEach(sk => {
+    const rows = document.querySelectorAll(`#panel-${sk} .check-item-row`);
+    const done = [...rows].filter(r => r.classList.contains('done')).length;
+    const pct = rows.length ? Math.round(done/rows.length*100) : 0;
+    totalDone += done; totalAll += rows.length;
+
+    document.getElementById(`pct-${sk}`).textContent = pct + '%';
+    document.getElementById(`bar-${sk}`).style.width = pct + '%';
+    document.getElementById(`cnt-${sk}`).textContent = `${done}/${rows.length}`;
+  });
+
+  // Update per-card mini bars
+  Object.keys(cardMap).forEach(cardId => {
+    const rows = document.querySelectorAll(`[id^="mp-${cardId}"]`);
+    const allCardRows = [...document.querySelectorAll(`#mp-${cardId}`)].length > 0;
+    // find all checkboxes in this card by looking at mini-bar id
+    const mpEl = document.getElementById(`mp-${cardId}`);
+    const mbarEl = document.getElementById(`mbar-${cardId}`);
+    if (!mpEl) return;
+    // find parent tcard and count its rows
+    const tcard = mpEl.closest('.tcard');
+    if (!tcard) return;
+    const cardRows = tcard.querySelectorAll('.check-item-row');
+    const cardDone = [...cardRows].filter(r => r.classList.contains('done')).length;
+    const cardPct = cardRows.length ? Math.round(cardDone/cardRows.length*100) : 0;
+    mpEl.textContent = cardPct + '%';
+    mbarEl.style.width = cardPct + '%';
+  });
+
+  const allPct = totalAll ? Math.round(totalDone/totalAll*100) : 0;
+  document.getElementById('pct-all').textContent = allPct + '%';
+  document.getElementById('bar-all').style.width = allPct + '%';
+  document.getElementById('total-badge').textContent = `⚡ ${allPct}% Complete (${totalDone}/${totalAll})`;
+}
+
+// ─── TAB SWITCH ───
+function switchTab(sk) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.className = 'tab-btn');
+  document.getElementById('panel-' + sk).classList.add('active');
+  document.getElementById('tbtn-' + sk).classList.add('t-' + sk);
+}
+
+// ─── RESET ───
+function resetAll() {
+  if (!confirm('Reset all checkboxes? This cannot be undone.')) return;
+  state = {};
+  localStorage.removeItem(STORE_KEY);
+  document.querySelectorAll('.check-item-row').forEach(r => {
+    r.classList.remove('done');
+    r.querySelector('input').checked = false;
+  });
+  updateAll();
+}
+
+// ─── TOAST ───
+let toastTimer;
+const toasts = [
+  '✅ Topic checked off!', '🔥 Keep going!', '💪 One step closer!',
+  '⚡ Progress!', '🎯 Locked in!', '🚀 Building momentum!'
+];
+let toastIdx = 0;
+function showToast() {
+  const el = document.getElementById('toast');
+  el.textContent = toasts[toastIdx++ % toasts.length];
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 1800);
+}
+
+// ─── START ───
+init();
+</script>
+</body>
+</html>

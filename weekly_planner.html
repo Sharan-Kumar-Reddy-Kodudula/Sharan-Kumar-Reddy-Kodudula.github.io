@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Sharan's Weekly Planner — Job Hunt Mode 🎯</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#060a14;--bg2:#0d1526;--bg3:#111e35;
+  --text:#e2e8f0;--muted:#7a8fa6;
+  --accent:#6366f1;--accent2:#a855f7;--accent3:#22d3ee;
+  --green:#10b981;--yellow:#f59e0b;--red:#ef4444;--orange:#f97316;
+  --border:rgba(99,102,241,0.18);
+  --c-sql:#22d3ee;--c-python:#a855f7;--c-bi:#f59e0b;--c-apps:#10b981;
+  --c-network:#6366f1;--c-health:#f97316;--c-research:#ec4899;
+  --c-break:#374151;--c-review:#64748b;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* HEADER */
+header{
+  padding:1.5rem 4%;
+  background:linear-gradient(135deg,rgba(99,102,241,0.12),rgba(168,85,247,0.08));
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;
+}
+.header-left h1{font-size:1.5rem;font-weight:900;letter-spacing:-0.5px}
+.header-left h1 span{background:linear-gradient(135deg,var(--accent3),var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header-left p{color:var(--muted);font-size:0.82rem;margin-top:0.2rem}
+.header-right{display:flex;gap:0.75rem;align-items:center;flex-wrap:wrap}
+.week-badge{padding:0.45rem 1.1rem;border-radius:50px;background:linear-gradient(135deg,var(--accent),var(--accent2));font-size:0.78rem;font-weight:700;color:#fff;box-shadow:0 0 20px rgba(99,102,241,0.35)}
+.phase-badge{padding:0.45rem 1.1rem;border-radius:50px;background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.35);font-size:0.78rem;font-weight:700;color:var(--green)}
+
+/* PHASE TRACKER */
+.phase-bar{
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  padding:0.9rem 4%;display:flex;gap:1rem;align-items:center;flex-wrap:wrap;
+}
+.phase-item{
+  display:flex;align-items:center;gap:0.6rem;padding:0.35rem 0.9rem;
+  border-radius:8px;border:1px solid var(--border);background:rgba(255,255,255,0.02);
+  font-size:0.75rem;font-weight:600;cursor:pointer;transition:all 0.2s;
+}
+.phase-item:hover{border-color:rgba(99,102,241,0.4)}
+.phase-item.active-phase{background:rgba(99,102,241,0.12);border-color:rgba(99,102,241,0.4);color:var(--accent3)}
+.phase-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.pd-0{background:#10b981}.pd-1{background:#3b82f6}.pd-2{background:#8b5cf6}.pd-3{background:#ec4899}
+.phase-label{color:var(--muted)}
+.phase-bar-divider{flex:1;height:1px;background:var(--border)}
+.roadmap-link{font-size:0.75rem;color:var(--accent3);text-decoration:none;font-weight:600;display:flex;align-items:center;gap:0.3rem;padding:0.35rem 0.75rem;border-radius:6px;border:1px solid rgba(34,211,238,0.25);transition:all 0.2s}
+.roadmap-link:hover{background:rgba(34,211,238,0.08)}
+
+/* STATS ROW */
+.stats{display:flex;gap:0.75rem;padding:1rem 4%;flex-wrap:wrap;background:var(--bg2);border-bottom:1px solid var(--border)}
+.stat-pill{display:flex;align-items:center;gap:0.5rem;padding:0.35rem 0.85rem;border-radius:50px;font-size:0.78rem;font-weight:600;background:rgba(255,255,255,0.04);border:1px solid var(--border)}
+.stat-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* DAY TABS */
+.day-tabs{display:flex;gap:0;overflow-x:auto;background:var(--bg2);border-bottom:1px solid var(--border);padding:0 4%}
+.day-tab{padding:0.9rem 1.3rem;border:none;background:transparent;color:var(--muted);font-size:0.83rem;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;transition:all 0.2s;white-space:nowrap;letter-spacing:0.3px;text-align:left}
+.day-tab:hover{color:var(--text)}
+.day-tab.active{color:var(--accent3);border-bottom-color:var(--accent3)}
+.day-tab .day-label{display:block;font-size:0.68rem;color:var(--muted);font-weight:400;margin-top:0.1rem}
+.day-tab.active .day-label{color:var(--accent3);opacity:0.7}
+.day-tab .focus-chip{display:inline-block;font-size:0.58rem;padding:0.1rem 0.4rem;border-radius:4px;background:rgba(99,102,241,0.15);color:var(--accent);margin-top:0.2rem;font-weight:700;letter-spacing:0.5px}
+
+/* MAIN LAYOUT */
+main{display:grid;grid-template-columns:230px 1fr;min-height:calc(100vh - 260px)}
+@media(max-width:768px){main{grid-template-columns:1fr}}
+
+/* SIDEBAR */
+aside{background:var(--bg2);border-right:1px solid var(--border);padding:1.25rem 1rem;position:sticky;top:0;height:fit-content;max-height:100vh;overflow-y:auto}
+.aside-title{font-size:0.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:0.6rem;margin-top:1.2rem}
+.aside-title:first-child{margin-top:0}
+.legend-item{display:flex;align-items:center;gap:0.55rem;padding:0.28rem 0;font-size:0.77rem;color:var(--muted)}
+.legend-dot{width:9px;height:9px;border-radius:3px;flex-shrink:0}
+
+.daily-nonneg{margin-top:0.75rem;padding:0.9rem;border-radius:10px;background:rgba(99,102,241,0.07);border:1px solid rgba(99,102,241,0.2)}
+.goal-title{font-size:0.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-bottom:0.6rem}
+.goal-item{display:flex;align-items:flex-start;gap:0.45rem;font-size:0.76rem;color:var(--muted);padding:0.25rem 0;line-height:1.45}
+.goal-item::before{content:"→";color:var(--accent);font-size:0.68rem;margin-top:0.05rem;flex-shrink:0}
+
+.focus-resources{margin-top:0.75rem;padding:0.9rem;border-radius:10px;background:rgba(34,211,238,0.05);border:1px solid rgba(34,211,238,0.15)}
+.res-title{font-size:0.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent3);margin-bottom:0.6rem}
+.res-link{display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--muted);padding:0.25rem 0;text-decoration:none;transition:color 0.15s}
+.res-link:hover{color:var(--accent3)}
+.res-link::before{content:"↗";font-size:0.65rem;color:var(--accent3)}
+
+.quote-box{margin-top:0.75rem;padding:0.9rem;border-radius:10px;background:rgba(16,185,129,0.05);border-left:3px solid var(--green)}
+.quote-box p{font-size:0.75rem;color:var(--muted);font-style:italic;line-height:1.5}
+.quote-box cite{font-size:0.68rem;color:var(--green);margin-top:0.4rem;display:block;font-style:normal}
+
+/* SCHEDULE */
+.schedule-area{padding:1.5rem 2rem;overflow-y:auto}
+.day-panel{display:none}.day-panel.active{display:block}
+.day-header{margin-bottom:1.5rem}
+.day-title{font-size:1.3rem;font-weight:900;letter-spacing:-0.5px;margin-bottom:0.3rem}
+.day-subtitle{font-size:0.82rem;color:var(--muted);line-height:1.5}
+.day-focus-tag{display:inline-block;margin-top:0.6rem;padding:0.25rem 0.75rem;border-radius:6px;font-size:0.72rem;font-weight:700;letter-spacing:0.5px}
+
+.time-row{display:grid;grid-template-columns:64px 1fr;gap:0.75rem;align-items:start;margin-bottom:0.55rem}
+.time-label{font-size:0.72rem;color:var(--muted);padding-top:0.7rem;font-weight:600;text-align:right;letter-spacing:0.3px}
+.time-block{
+  border-radius:10px;padding:0.7rem 0.9rem;
+  border-left:3px solid transparent;
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.05);
+  border-left-width:3px;
+  transition:transform 0.15s,box-shadow 0.15s;
+}
+.time-block:hover{transform:translateX(2px);box-shadow:0 2px 12px rgba(0,0,0,0.3)}
+.tb-title{font-size:0.83rem;font-weight:700;margin-bottom:0.2rem}
+.tb-detail{font-size:0.75rem;color:var(--muted);line-height:1.5}
+.tb-tag{display:inline-block;font-size:0.62rem;font-weight:700;padding:0.1rem 0.4rem;border-radius:4px;margin-left:0.4rem;vertical-align:middle}
+.tb-phase{background:rgba(59,130,246,0.15);color:#60a5fa}
+.tb-resource{background:rgba(34,211,238,0.12);color:var(--accent3)}
+.tb-action{background:rgba(16,185,129,0.12);color:var(--green)}
+
+/* block color classes */
+.sql  {border-left-color:var(--c-sql)  !important;background:rgba(34,211,238,0.04)  !important}
+.py   {border-left-color:var(--c-python)!important;background:rgba(168,85,247,0.04)!important}
+.bi   {border-left-color:var(--c-bi)   !important;background:rgba(245,158,11,0.04)  !important}
+.apps {border-left-color:var(--c-apps) !important;background:rgba(16,185,129,0.04)  !important}
+.net  {border-left-color:var(--c-network)!important;background:rgba(99,102,241,0.04)!important}
+.hlth {border-left-color:var(--c-health)!important;background:rgba(249,115,22,0.04)!important}
+.res  {border-left-color:var(--c-research)!important;background:rgba(236,72,153,0.04)!important}
+.brk  {border-left-color:var(--c-break)!important;background:rgba(55,65,81,0.15)  !important}
+.rev  {border-left-color:var(--c-review)!important;background:rgba(100,116,139,0.04)!important}
+
+/* WEEKLY OVERVIEW */
+.week-overview{background:var(--bg2);border-top:1px solid var(--border);padding:1.25rem 4%}
+.overview-title{font-size:0.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:1rem}
+.overview-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:0.5rem}
+.ov-day{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:0.75rem 0.5rem;text-align:center;cursor:pointer;transition:all 0.2s}
+.ov-day:hover,.ov-day.ov-active{border-color:var(--accent3);background:rgba(34,211,238,0.06)}
+.ov-name{font-size:0.7rem;font-weight:700;color:var(--muted)}
+.ov-theme{font-size:0.68rem;color:var(--accent3);margin-top:0.25rem;font-weight:600}
+.ov-dots{display:flex;justify-content:center;gap:3px;margin-top:0.5rem;flex-wrap:wrap}
+.ov-dot{width:6px;height:6px;border-radius:50%}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>🎯 <span>Sharan's Job Hunt Planner</span></h1>
+    <p>Data Analyst → AI/ML track · Structured daily execution · Week of May 2026</p>
+  </div>
+  <div class="header-right">
+    <span class="phase-badge">📍 Starting Phase 0</span>
+    <span class="week-badge">⚡ Job Hunt Mode</span>
+  </div>
+</header>
+
+<!-- PHASE TRACKER -->
+<div class="phase-bar">
+  <div class="phase-item active-phase">
+    <span class="phase-dot pd-0"></span>
+    <span>Phase 0 — Basics</span>
+  </div>
+  <div class="phase-item">
+    <span class="phase-dot pd-1"></span>
+    <span>Phase 1 — Foundation</span>
+  </div>
+  <div class="phase-item">
+    <span class="phase-dot pd-2"></span>
+    <span>Phase 2 — Interview Ready</span>
+  </div>
+  <div class="phase-item">
+    <span class="phase-dot pd-3"></span>
+    <span>Phase 3 — Advanced</span>
+  </div>
+  <div class="phase-bar-divider"></div>
+  <a class="roadmap-link" href="skill_roadmap.html" target="_blank">📚 Open Skill Roadmap ↗</a>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-pill"><span class="stat-dot" style="background:var(--c-sql)"></span>SQL · Mon + Daily 20min</div>
+  <div class="stat-pill"><span class="stat-dot" style="background:var(--c-python)"></span>Python · Tue + Fri</div>
+  <div class="stat-pill"><span class="stat-dot" style="background:var(--c-bi)"></span>BI Tools · Wed</div>
+  <div class="stat-pill"><span class="stat-dot" style="background:var(--c-apps)"></span>Applications · Thu</div>
+  <div class="stat-pill"><span class="stat-dot" style="background:var(--c-research)"></span>Build & Ship · Fri</div>
+  <div class="stat-pill"><span class="stat-dot" style="background:var(--c-network)"></span>Interview Prep · Sat</div>
+  <div class="stat-pill"><span class="stat-dot" style="background:var(--c-review)"></span>Review & Rest · Sun</div>
+</div>
+
+<!-- DAY TABS -->
+<div class="day-tabs">
+  <button class="day-tab active" onclick="switchDay('mon',this)">
+    Mon<span class="day-label">May 11</span><span class="focus-chip">SQL</span>
+  </button>
+  <button class="day-tab" onclick="switchDay('tue',this)">
+    Tue<span class="day-label">May 12</span><span class="focus-chip">PYTHON</span>
+  </button>
+  <button class="day-tab" onclick="switchDay('wed',this)">
+    Wed<span class="day-label">May 13</span><span class="focus-chip">BI</span>
+  </button>
+  <button class="day-tab" onclick="switchDay('thu',this)">
+    Thu<span class="day-label">May 14</span><span class="focus-chip">APPLY</span>
+  </button>
+  <button class="day-tab" onclick="switchDay('fri',this)">
+    Fri<span class="day-label">May 15</span><span class="focus-chip">BUILD</span>
+  </button>
+  <button class="day-tab" onclick="switchDay('sat',this)">
+    Sat<span class="day-label">May 16</span><span class="focus-chip">PREP</span>
+  </button>
+  <button class="day-tab" onclick="switchDay('sun',this)">
+    Sun<span class="day-label">May 17</span><span class="focus-chip">REVIEW</span>
+  </button>
+</div>
+
+<main>
+<!-- SIDEBAR -->
+<aside>
+  <div class="aside-title">Color Legend</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--c-sql)"></span>SQL / Databases</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--c-python)"></span>Python / Stats / ML</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--c-bi)"></span>BI Tools / Tableau</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--c-apps)"></span>Job Applications</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--c-network)"></span>Networking / LinkedIn</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--c-health)"></span>Health / Movement</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--c-research)"></span>Build / Projects</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--c-break)"></span>Break / Food</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--c-review)"></span>Review / Plan</div>
+
+  <div class="daily-nonneg">
+    <div class="goal-title">🔒 Daily Non-Negotiables</div>
+    <div class="goal-item">1 DataLemur SQL problem (morning warmup, every day)</div>
+    <div class="goal-item">Apply to 3–5 jobs minimum (Thu priority, daily habit)</div>
+    <div class="goal-item">10 LinkedIn connections or comments</div>
+    <div class="goal-item">30 min walk or movement</div>
+    <div class="goal-item">Log what you learned (1 sentence in notes)</div>
+  </div>
+
+  <div class="focus-resources">
+    <div class="res-title" id="sidebar-res-title">📚 Today's Resources</div>
+    <div id="sidebar-resources">
+      <a class="res-link" href="https://datalemur.com" target="_blank">DataLemur — 1 SQL/day</a>
+      <a class="res-link" href="https://sqlzoo.net/wiki/SELECT_basics" target="_blank">SQLZoo — SELECT Basics</a>
+      <a class="res-link" href="https://www.khanacademy.org/computing/computer-programming/sql" target="_blank">Khan Academy SQL</a>
+      <a class="res-link" href="https://sqliteonline.com" target="_blank">SQLiteOnline — Sandbox</a>
+      <a class="res-link" href="https://www.w3schools.com/sql/" target="_blank">W3Schools SQL Ref</a>
+    </div>
+  </div>
+
+  <div class="quote-box">
+    <p id="daily-quote">"You don't rise to the level of your goals, you fall to the level of your systems."</p>
+    <cite id="daily-cite">— James Clear</cite>
+  </div>
+</aside>
+
+<!-- SCHEDULE AREA -->
+<div class="schedule-area">
+
+  <!-- ══════ MONDAY ══════ -->
+  <div class="day-panel active" id="day-mon">
+    <div class="day-header">
+      <div class="day-title">Monday — SQL Deep Dive 🗄️</div>
+      <div class="day-subtitle">Your highest-ROI skill. One focused topic per week. Build the daily DataLemur habit today.</div>
+      <span class="day-focus-tag" style="background:rgba(34,211,238,0.1);color:var(--c-sql);border:1px solid rgba(34,211,238,0.25)">Phase 0 Week 1: SELECT · WHERE · ORDER BY</span>
+    </div>
+
+    <div class="time-row"><div class="time-label">8:00</div><div class="time-block hlth"><div class="tb-title">🌅 Morning Routine + Breakfast</div><div class="tb-detail">Wake up, hydrate, light stretch. No phone for first 20 min.</div></div></div>
+    <div class="time-row"><div class="time-label">8:30</div><div class="time-block sql"><div class="tb-title">☀️ Daily SQL Warmup <span class="tb-tag tb-resource">DataLemur</span></div><div class="tb-detail">1 problem on DataLemur.com — Easy level. Time yourself. Read the solution explanation even if you got it right.</div></div></div>
+    <div class="time-row"><div class="time-label">9:00</div><div class="time-block sql"><div class="tb-title">📖 SQL Theory Block <span class="tb-tag tb-phase">Phase 0</span></div><div class="tb-detail">Week 1: Learn SELECT, WHERE, ORDER BY, LIMIT on SQLZoo or Khan Academy. Read, then immediately write the same query yourself from scratch.</div></div></div>
+    <div class="time-row"><div class="time-label">10:30</div><div class="time-block brk"><div class="tb-title">☕ Break</div><div class="tb-detail">Step away from screen. Drink water.</div></div></div>
+    <div class="time-row"><div class="time-label">10:45</div><div class="time-block sql"><div class="tb-title">💻 Practice Block — SQLZoo Exercises <span class="tb-tag tb-resource">SQLZoo</span></div><div class="tb-detail">Complete the SELECT chapter on SQLZoo. Do every exercise — don't skip. If stuck &gt; 10 min, check solution and re-do it from memory.</div></div></div>
+    <div class="time-row"><div class="time-label">12:30</div><div class="time-block brk"><div class="tb-title">🍱 Lunch Break</div><div class="tb-detail">Full break — no screen. Eat something good.</div></div></div>
+    <div class="time-row"><div class="time-label">1:30</div><div class="time-block apps"><div class="tb-title">📬 Job Applications <span class="tb-tag tb-action">3–5 today</span></div><div class="tb-detail">Apply to Data Analyst roles on LinkedIn / Indeed / Handshake. Tailor your summary for each. Log company + role in a spreadsheet.</div></div></div>
+    <div class="time-row"><div class="time-label">3:00</div><div class="time-block net"><div class="tb-title">🤝 LinkedIn Networking</div><div class="tb-detail">10 connections to DA/DS people at target companies. Comment thoughtfully on 3 posts. Message 1 alumni from FSU or GITAM.</div></div></div>
+    <div class="time-row"><div class="time-label">3:45</div><div class="time-block sql"><div class="tb-title">🔁 SQL Review + Note <span class="tb-tag tb-phase">Phase 0</span></div><div class="tb-detail">Write a 5-bullet cheat sheet of what you learned today. Write 3 queries from memory without looking. This is the step most people skip — don't.</div></div></div>
+    <div class="time-row"><div class="time-label">5:00</div><div class="time-block hlth"><div class="tb-title">🏃 Movement — 30 Min Walk</div><div class="tb-detail">Outside walk, no headphones for first 10 min. Let your brain rest and consolidate.</div></div></div>
+    <div class="time-row"><div class="time-label">5:30</div><div class="time-block brk"><div class="tb-title">🍽️ Dinner + Recharge</div></div></div>
+    <div class="time-row"><div class="time-label">7:00</div><div class="time-block sql"><div class="tb-title">🧩 Evening Practice — LeetCode Easy SQL <span class="tb-tag tb-resource">LeetCode</span></div><div class="tb-detail">Pick 1–2 Easy SQL problems from the Database tag on LeetCode. Read accepted solutions after. Goal: finish all 50 Easy over the next 5 weeks.</div></div></div>
+    <div class="time-row"><div class="time-label">8:30</div><div class="time-block rev"><div class="tb-title">📝 Daily Log</div><div class="tb-detail">Write 3 things: what you learned, what confused you, what to review tomorrow. Keep a Notion/Google Doc running log.</div></div></div>
+    <div class="time-row"><div class="time-label">9:00</div><div class="time-block brk"><div class="tb-title">🌙 Wind Down</div><div class="tb-detail">No new learning after 9pm. Read, stretch, sleep by 10:30.</div></div></div>
+  </div>
+
+  <!-- ══════ TUESDAY ══════ -->
+  <div class="day-panel" id="day-tue">
+    <div class="day-header">
+      <div class="day-title">Tuesday — Python & Stats 🐍</div>
+      <div class="day-subtitle">Pandas is 80% of every DA take-home test. Start from setup if you haven't already.</div>
+      <span class="day-focus-tag" style="background:rgba(168,85,247,0.1);color:var(--c-python);border:1px solid rgba(168,85,247,0.25)">Phase 0 Week 1: Setup · Variables · Lists · Dicts</span>
+    </div>
+
+    <div class="time-row"><div class="time-label">8:00</div><div class="time-block hlth"><div class="tb-title">🌅 Morning Routine</div><div class="tb-detail">Same routine. Consistency builds momentum.</div></div></div>
+    <div class="time-row"><div class="time-label">8:30</div><div class="time-block sql"><div class="tb-title">☀️ Daily SQL Warmup <span class="tb-tag tb-resource">DataLemur</span></div><div class="tb-detail">1 DataLemur problem — even on Python days. This is a daily habit, not optional.</div></div></div>
+    <div class="time-row"><div class="time-label">9:00</div><div class="time-block py"><div class="tb-title">⚙️ Python Environment Setup <span class="tb-tag tb-phase">Phase 0</span></div><div class="tb-detail">Install Anaconda → open Jupyter → run print("Hello Sharan!"). If already set up, skip to 9:30. Use Google Colab if you want zero-install start.</div></div></div>
+    <div class="time-row"><div class="time-label">9:30</div><div class="time-block py"><div class="tb-title">📖 Kaggle Learn — Python Course <span class="tb-tag tb-resource">Kaggle</span></div><div class="tb-detail">Start Kaggle Learn's Python course (kaggle.com/learn/python). Do Lesson 1 and 2: Syntax, Functions. Each lesson has exercises — complete them all.</div></div></div>
+    <div class="time-row"><div class="time-label">11:00</div><div class="time-block brk"><div class="tb-title">☕ Break</div></div></div>
+    <div class="time-row"><div class="time-label">11:15</div><div class="time-block py"><div class="tb-title">💻 Code Along: Variables, Lists, Dicts <span class="tb-tag tb-phase">Phase 0</span></div><div class="tb-detail">Open Jupyter and type: create a list of 5 cities, a dict with your name/age/GPA, loop through both and print. No copy-paste — type it yourself.</div></div></div>
+    <div class="time-row"><div class="time-label">12:30</div><div class="time-block brk"><div class="tb-title">🍱 Lunch</div></div></div>
+    <div class="time-row"><div class="time-label">1:30</div><div class="time-block apps"><div class="tb-title">📬 Job Applications <span class="tb-tag tb-action">3–5 today</span></div><div class="tb-detail">Focus on companies that list Python + SQL + "entry level" or "new grad". Save interesting JDs to read their exact skill requirements.</div></div></div>
+    <div class="time-row"><div class="time-label">3:00</div><div class="time-block py"><div class="tb-title">🧹 Mini Project: Load a CSV in Pandas <span class="tb-tag tb-phase">Phase 1 Preview</span></div><div class="tb-detail">Download any dataset from Kaggle. Load it with pd.read_csv(). Run df.head(), df.info(), df.describe(). What do you notice? Write 3 observations.</div></div></div>
+    <div class="time-row"><div class="time-label">4:30</div><div class="time-block net"><div class="tb-title">🤝 LinkedIn — Python & DA Community</div><div class="tb-detail">Follow 5 Data Analysts or Data Scientists. Comment on a post about Python or data. Share what you're learning (builds visibility).</div></div></div>
+    <div class="time-row"><div class="time-label">5:00</div><div class="time-block hlth"><div class="tb-title">🏃 30 Min Walk</div></div></div>
+    <div class="time-row"><div class="time-label">5:30</div><div class="time-block brk"><div class="tb-title">🍽️ Dinner</div></div></div>
+    <div class="time-row"><div class="time-label">7:00</div><div class="time-block py"><div class="tb-title">📺 StatQuest: Statistics Basics <span class="tb-tag tb-resource">YouTube</span></div><div class="tb-detail">Watch 1–2 StatQuest videos (youtube.com/@statquest). Start with "Statistics Fundamentals" playlist. Take notes on what you don't understand.</div></div></div>
+    <div class="time-row"><div class="time-label">8:30</div><div class="time-block rev"><div class="tb-title">📝 Daily Log + Tomorrow Plan</div><div class="tb-detail">Log what clicked and what didn't. Write 3 Python concepts you want to revisit. Set tomorrow's BI goal.</div></div></div>
+    <div class="time-row"><div class="time-label">9:00</div><div class="time-block brk"><div class="tb-title">🌙 Wind Down</div></div></div>
+  </div>
+
+  <!-- ══════ WEDNESDAY ══════ -->
+  <div class="day-panel" id="day-wed">
+    <div class="day-header">
+      <div class="day-title">Wednesday — BI Tools 📊</div>
+      <div class="day-subtitle">Your biggest differentiator. Start with Excel pivots — Power BI becomes 3x easier after.</div>
+      <span class="day-focus-tag" style="background:rgba(245,158,11,0.1);color:var(--c-bi);border:1px solid rgba(245,158,11,0.25)">Phase 0 Week 1: Excel Essentials · Pivot Tables · Power BI First Look</span>
+    </div>
+
+    <div class="time-row"><div class="time-label">8:00</div><div class="time-block hlth"><div class="tb-title">🌅 Morning Routine</div></div></div>
+    <div class="time-row"><div class="time-label">8:30</div><div class="time-block sql"><div class="tb-title">☀️ Daily SQL Warmup <span class="tb-tag tb-resource">DataLemur</span></div><div class="tb-detail">1 DataLemur problem. Every. Single. Day.</div></div></div>
+    <div class="time-row"><div class="time-label">9:00</div><div class="time-block bi"><div class="tb-title">📊 Excel: SUM, IF, VLOOKUP <span class="tb-tag tb-phase">Phase 0</span></div><div class="tb-detail">Open Excel or Google Sheets. Create a small sales table (product, qty, price, total). Write SUM, AVERAGE, IF, and VLOOKUP formulas. Type every formula manually.</div></div></div>
+    <div class="time-row"><div class="time-label">10:30</div><div class="time-block bi"><div class="tb-title">🔄 Pivot Tables — Kevin Stratvert Tutorial <span class="tb-tag tb-resource">YouTube</span></div><div class="tb-detail">Watch "Excel Pivot Tables in 20 Min" by Kevin Stratvert on YouTube. Then recreate the same pivot on your own dataset with no video. Add a slicer.</div></div></div>
+    <div class="time-row"><div class="time-label">12:00</div><div class="time-block brk"><div class="tb-title">🍱 Lunch</div></div></div>
+    <div class="time-row"><div class="time-label">1:00</div><div class="time-block bi"><div class="tb-title">🚀 Power BI Desktop — First Look <span class="tb-tag tb-phase">Phase 0</span></div><div class="tb-detail">Download Power BI Desktop (free). Load a CSV. Build your first bar chart. Add a slicer. See cross-filtering in action. Write your first DAX: Total = SUM(Table[Column]).</div></div></div>
+    <div class="time-row"><div class="time-label">2:30</div><div class="time-block apps"><div class="tb-title">📬 Job Applications <span class="tb-tag tb-action">3–5 today</span></div><div class="tb-detail">Target roles that mention "Power BI" or "Tableau" — these are your differentiator roles. Add Power BI to your resume skills if not already there.</div></div></div>
+    <div class="time-row"><div class="time-label">4:00</div><div class="time-block bi"><div class="tb-title">📺 Guy in a Cube: Power BI Beginner <span class="tb-tag tb-resource">YouTube</span></div><div class="tb-detail">Watch the "Power BI for Beginners" video by Guy in a Cube. Take notes on the 3 view types: Report / Data / Model. This is the mental model you need.</div></div></div>
+    <div class="time-row"><div class="time-label">5:00</div><div class="time-block hlth"><div class="tb-title">🏃 30 Min Walk</div></div></div>
+    <div class="time-row"><div class="time-label">5:30</div><div class="time-block brk"><div class="tb-title">🍽️ Dinner</div></div></div>
+    <div class="time-row"><div class="time-label">7:00</div><div class="time-block bi"><div class="tb-title">🏅 MakeoverMonday — Study a Dashboard <span class="tb-tag tb-resource">makeovermonday.co.uk</span></div><div class="tb-detail">Go to makeovermonday.co.uk or public.tableau.com. Pick a top-rated dashboard and study it: what chart types? what KPIs? what colors? What would you change?</div></div></div>
+    <div class="time-row"><div class="time-label">8:30</div><div class="time-block rev"><div class="tb-title">📝 Daily Log</div><div class="tb-detail">What did you build today? What BI concept confused you most? Write it down and search for it tomorrow.</div></div></div>
+    <div class="time-row"><div class="time-label">9:00</div><div class="time-block brk"><div class="tb-title">🌙 Wind Down</div></div></div>
+  </div>
+
+  <!-- ══════ THURSDAY ══════ -->
+  <div class="day-panel" id="day-thu">
+    <div class="day-header">
+      <div class="day-title">Thursday — Applications & Networking 📬</div>
+      <div class="day-subtitle">This is your revenue day. Everything else builds toward this. Don't let it slip.</div>
+      <span class="day-focus-tag" style="background:rgba(16,185,129,0.1);color:var(--c-apps);border:1px solid rgba(16,185,129,0.25)">Target: 5 tailored applications · 10 LinkedIn touchpoints · 1 cold email</span>
+    </div>
+
+    <div class="time-row"><div class="time-label">8:00</div><div class="time-block hlth"><div class="tb-title">🌅 Morning Routine</div></div></div>
+    <div class="time-row"><div class="time-label">8:30</div><div class="time-block sql"><div class="tb-title">☀️ Daily SQL Warmup <span class="tb-tag tb-resource">DataLemur</span></div><div class="tb-detail">1 DataLemur problem. Keep the streak alive.</div></div></div>
+    <div class="time-row"><div class="time-label">9:00</div><div class="time-block apps"><div class="tb-title">🔍 Job Search & Shortlist <span class="tb-tag tb-action">Find 10 roles</span></div><div class="tb-detail">LinkedIn Jobs, Indeed, Handshake, Wellfound. Filter: Data Analyst, Analytics Engineer, Junior Data Scientist. Shortlist 10, pick best 5 to apply today.</div></div></div>
+    <div class="time-row"><div class="time-label">10:00</div><div class="time-block apps"><div class="tb-title">✍️ Tailored Applications — Batch 1 (2–3 roles)</div><div class="tb-detail">Customize your summary for each role using keywords from the JD. Match their language: if they say "dbt models" → say dbt models. Use your resume PDF + tweak cover note.</div></div></div>
+    <div class="time-row"><div class="time-label">11:30</div><div class="time-block brk"><div class="tb-title">☕ Break</div></div></div>
+    <div class="time-row"><div class="time-label">11:45</div><div class="time-block apps"><div class="tb-title">✍️ Tailored Applications — Batch 2 (2–3 roles)</div><div class="tb-detail">Continue applying. Log every application: company, role, date, JD link, status. Track in Google Sheets — you'll need this for follow-ups.</div></div></div>
+    <div class="time-row"><div class="time-label">1:00</div><div class="time-block brk"><div class="tb-title">🍱 Lunch</div></div></div>
+    <div class="time-row"><div class="time-label">2:00</div><div class="time-block net"><div class="tb-title">🤝 LinkedIn Outreach — 10 Connections</div><div class="tb-detail">Send personalized connection requests to Data Analysts / Hiring Managers at companies you applied to. Message: "Hi [name], I applied for [role] and love what [company] does with data. Would value connecting."</div></div></div>
+    <div class="time-row"><div class="time-label">3:00</div><div class="time-block net"><div class="tb-title">📧 1 Cold Email to FSU Alum or Recruiter</div><div class="tb-detail">Find 1 FSU or GITAM alum at a company you want to work at. Send a genuine 4-line email: who you are, what you admire about their work, specific ask (15-min chat or resume feedback).</div></div></div>
+    <div class="time-row"><div class="time-label">3:45</div><div class="time-block sql"><div class="tb-title">📚 SQL Light Practice — StrataScratch Easy <span class="tb-tag tb-resource">StrataScratch</span></div><div class="tb-detail">Do 2 Easy problems on StrataScratch. Filter by companies you applied to today. Builds familiarity with their interview style.</div></div></div>
+    <div class="time-row"><div class="time-label">5:00</div><div class="time-block hlth"><div class="tb-title">🏃 30 Min Walk</div></div></div>
+    <div class="time-row"><div class="time-label">5:30</div><div class="time-block brk"><div class="tb-title">🍽️ Dinner</div></div></div>
+    <div class="time-row"><div class="time-label">7:00</div><div class="time-block apps"><div class="tb-title">📊 Application Tracker Update + Follow-ups</div><div class="tb-detail">Update your Google Sheet. Check if any applications from last week need a follow-up (7–10 days later is appropriate). Draft 1–2 polite follow-up emails.</div></div></div>
+    <div class="time-row"><div class="time-label">8:00</div><div class="time-block py"><div class="tb-title">🐍 Light Python — Kaggle Learn <span class="tb-tag tb-phase">Phase 0</span></div><div class="tb-detail">30–45 min easy reading: continue Kaggle Learn Python. No heavy new concepts on application days — this is maintenance mode.</div></div></div>
+    <div class="time-row"><div class="time-label">9:00</div><div class="time-block brk"><div class="tb-title">🌙 Wind Down</div></div></div>
+  </div>
+
+  <!-- ══════ FRIDAY ══════ -->
+  <div class="day-panel" id="day-fri">
+    <div class="day-header">
+      <div class="day-title">Friday — Build & Ship 🚀</div>
+      <div class="day-subtitle">Every 2 weeks push something to GitHub. This is what fills your portfolio and gives you interview stories.</div>
+      <span class="day-focus-tag" style="background:rgba(236,72,153,0.1);color:var(--c-research);border:1px solid rgba(236,72,153,0.25)">Goal: GitHub push or Kaggle notebook published every 2 Fridays</span>
+    </div>
+
+    <div class="time-row"><div class="time-label">8:00</div><div class="time-block hlth"><div class="tb-title">🌅 Morning Routine</div></div></div>
+    <div class="time-row"><div class="time-label">8:30</div><div class="time-block sql"><div class="tb-title">☀️ Daily SQL Warmup <span class="tb-tag tb-resource">DataLemur</span></div><div class="tb-detail">1 DataLemur problem — streak continues.</div></div></div>
+    <div class="time-row"><div class="time-label">9:00</div><div class="time-block py"><div class="tb-title">🐍 Python Deep Dive — Pandas <span class="tb-tag tb-phase">Phase 1</span></div><div class="tb-detail">Focus: groupby + agg(), merge(), pivot_table(). Open Jupyter. Load any dataset. Write 5 queries using each of these methods — no looking at docs after the first 5 min.</div></div></div>
+    <div class="time-row"><div class="time-label">10:30</div><div class="time-block res"><div class="tb-title">🔨 Project Work Session — 90 Min Block</div><div class="tb-detail">Pick ONE project to advance: Customer 360, Hospital Readmission, or a new Kaggle dataset. Write code, not just notes. One new function or visualization per session minimum.</div></div></div>
+    <div class="time-row"><div class="time-label">12:00</div><div class="time-block brk"><div class="tb-title">🍱 Lunch</div></div></div>
+    <div class="time-row"><div class="time-label">1:00</div><div class="time-block res"><div class="tb-title">🔨 Project Work Continued <span class="tb-tag tb-action">Push to GitHub</span></div><div class="tb-detail">Continue project. Every Friday: commit and push to GitHub, even if incomplete. Write a proper README with: what the project does, tech stack, key findings. Recruiters read READMEs.</div></div></div>
+    <div class="time-row"><div class="time-label">2:30</div><div class="time-block apps"><div class="tb-title">📬 Applications — 3 minimum</div><div class="tb-detail">Even on build days, keep applying. 3 applications is the floor.</div></div></div>
+    <div class="time-row"><div class="time-label">3:30</div><div class="time-block py"><div class="tb-title">📚 Kaggle Learn — Pandas or Data Viz <span class="tb-tag tb-resource">Kaggle</span></div><div class="tb-detail">Continue Kaggle Learn: Pandas course (5 lessons) or Data Visualization course. Do every exercise. Get the free certificate — it's a credibility signal.</div></div></div>
+    <div class="time-row"><div class="time-label">5:00</div><div class="time-block hlth"><div class="tb-title">🏃 30 Min Walk</div></div></div>
+    <div class="time-row"><div class="time-label">5:30</div><div class="time-block brk"><div class="tb-title">🍽️ Dinner</div></div></div>
+    <div class="time-row"><div class="time-label">7:00</div><div class="time-block res"><div class="tb-title">📖 Optional: Andrej Karpathy or StatQuest <span class="tb-tag tb-resource">YouTube</span></div><div class="tb-detail">If energy allows: watch 1 video from Andrej Karpathy's "Neural Networks: Zero to Hero" OR a StatQuest ML video. Light consumption, not heavy coding.</div></div></div>
+    <div class="time-row"><div class="time-label">8:30</div><div class="time-block rev"><div class="tb-title">📝 Week-End Log</div><div class="tb-detail">What did you ship this week? What SQL/Python/BI concepts clicked? What's Phase 0 progress? Open skill_roadmap.html and check off completed items.</div></div></div>
+    <div class="time-row"><div class="time-label">9:00</div><div class="time-block brk"><div class="tb-title">🌙 Wind Down — Rest up for Saturday prep</div></div></div>
+  </div>
+
+  <!-- ══════ SATURDAY ══════ -->
+  <div class="day-panel" id="day-sat">
+    <div class="day-header">
+      <div class="day-title">Saturday — Interview Prep 🎤</div>
+      <div class="day-subtitle">Simulate real interview conditions. Talk out loud. Timed problems. Behavioral stories using STAR format.</div>
+      <span class="day-focus-tag" style="background:rgba(99,102,241,0.1);color:var(--c-network);border:1px solid rgba(99,102,241,0.25)">SQL Timed · Behavioral STAR · BI Scenario · Mock Q&A</span>
+    </div>
+
+    <div class="time-row"><div class="time-label">8:30</div><div class="time-block hlth"><div class="tb-title">🌅 Relaxed Morning Start</div><div class="tb-detail">Slightly slower start. Good breakfast. Clear your head before intense prep.</div></div></div>
+    <div class="time-row"><div class="time-label">9:00</div><div class="time-block sql"><div class="tb-title">⏱️ SQL Timed Mock — 3 Problems in 45 min <span class="tb-tag tb-resource">StrataScratch</span></div><div class="tb-detail">Set a 45-min timer. Do 3 StrataScratch Medium problems. No Googling. Mimic real interview pressure. After: review each solution and understand why yours differed.</div></div></div>
+    <div class="time-row"><div class="time-label">10:00</div><div class="time-block net"><div class="tb-title">🎤 Behavioral Stories — STAR Method</div><div class="tb-detail">Pick 3 questions: "Tell me about a time you found a key insight in data", "time you explained tech to non-tech", "time you had to work with messy data". Write full STAR answers for each.</div></div></div>
+    <div class="time-row"><div class="time-label">11:15</div><div class="time-block brk"><div class="tb-title">☕ Break</div></div></div>
+    <div class="time-row"><div class="time-label">11:30</div><div class="time-block bi"><div class="tb-title">📊 BI Scenario Practice</div><div class="tb-detail">"Given a sales dataset, what dashboard would you build for a VP?" Practice talking through your approach out loud. What KPIs? What chart types? Why? This is what BI interviews test.</div></div></div>
+    <div class="time-row"><div class="time-label">12:30</div><div class="time-block brk"><div class="tb-title">🍱 Lunch</div></div></div>
+    <div class="time-row"><div class="time-label">1:30</div><div class="time-block sql"><div class="tb-title">🪟 SQL — Window Functions Deep Dive <span class="tb-tag tb-phase">Phase 2 Preview</span></div><div class="tb-detail">Watch Mode SQL Tutorial section on window functions. Then write ROW_NUMBER, RANK, LAG, SUM OVER from scratch in SQLiteOnline. These are in 80% of DA interviews.</div></div></div>
+    <div class="time-row"><div class="time-label">3:00</div><div class="time-block net"><div class="tb-title">🧠 Mock Interview — Record Yourself</div><div class="tb-detail">Record yourself answering 5 interview questions on your phone. Watch it back. Do you say "um" a lot? Are your answers concise? Fix the 1 biggest habit you notice.</div></div></div>
+    <div class="time-row"><div class="time-label">4:00</div><div class="time-block apps"><div class="tb-title">📬 Applications — 3 minimum</div><div class="tb-detail">Keep the habit even on Saturdays. 3 applications, tracked in your spreadsheet.</div></div></div>
+    <div class="time-row"><div class="time-label">5:00</div><div class="time-block hlth"><div class="tb-title">🏃 Walk or Workout</div></div></div>
+    <div class="time-row"><div class="time-label">6:00</div><div class="time-block brk"><div class="tb-title">🍽️ Dinner + Social Time</div><div class="tb-detail">Spend time with people. This matters for your energy and perspective. Recharge.</div></div></div>
+    <div class="time-row"><div class="time-label">8:00</div><div class="time-block py"><div class="tb-title">🐍 Light Python — Review Concepts</div><div class="tb-detail">Review this week's Python notes. Re-write 3 Pandas operations from memory. Light study only — don't overload on a Saturday night.</div></div></div>
+    <div class="time-row"><div class="time-label">9:30</div><div class="time-block brk"><div class="tb-title">🌙 Wind Down — Early night</div></div></div>
+  </div>
+
+  <!-- ══════ SUNDAY ══════ -->
+  <div class="day-panel" id="day-sun">
+    <div class="day-header">
+      <div class="day-title">Sunday — Review, Plan & Reset 🔄</div>
+      <div class="day-subtitle">The week you don't plan is the week you drift. Sunday sets the tone for everything that follows.</div>
+      <span class="day-focus-tag" style="background:rgba(100,116,139,0.1);color:var(--c-review);border:1px solid rgba(100,116,139,0.25)">Weekly Review · Next Week Plan · Skill Roadmap Check · Rest</span>
+    </div>
+
+    <div class="time-row"><div class="time-label">9:00</div><div class="time-block hlth"><div class="tb-title">🌅 Slow Morning — No Rush</div><div class="tb-detail">Eat well. Don't open your laptop until 10am. This rest is productive — your brain is consolidating everything from the week.</div></div></div>
+    <div class="time-row"><div class="time-label">10:00</div><div class="time-block sql"><div class="tb-title">☀️ Daily SQL Warmup <span class="tb-tag tb-resource">DataLemur</span></div><div class="tb-detail">Even Sunday. The daily habit only works if it's actually daily.</div></div></div>
+    <div class="time-row"><div class="time-label">10:30</div><div class="time-block rev"><div class="tb-title">📊 Weekly Review — 30 Min</div><div class="tb-detail">Open your daily log. Answer: How many SQL problems solved? How many applications sent? What Phase 0/1 items did you complete? What felt hard this week?</div></div></div>
+    <div class="time-row"><div class="time-label">11:00</div><div class="time-block rev"><div class="tb-title">✅ Skill Roadmap Check-In <span class="tb-tag tb-action">Open skill_roadmap.html</span></div><div class="tb-detail">Open your skill roadmap. Check off everything you actually completed this week. Update your progress bars. Are you on track for Phase 0 completion by Week 2?</div></div></div>
+    <div class="time-row"><div class="time-label">11:30</div><div class="time-block rev"><div class="tb-title">🗓️ Next Week Planning</div><div class="tb-detail">Write next week's focus for each day: which SQL topic (Mon), which Python lessons (Tue), which BI concept (Wed). Set 3 specific goals. Put application target number. Done in 30 min max.</div></div></div>
+    <div class="time-row"><div class="time-label">12:00</div><div class="time-block brk"><div class="tb-title">🍱 Lunch + Full Break</div><div class="tb-detail">Step away completely. No learning for 2 hours. Walk, call family, cook something. This is non-negotiable recovery time.</div></div></div>
+    <div class="time-row"><div class="time-label">2:00</div><div class="time-block sql"><div class="tb-title">📖 Light SQL Review — Weak Spots</div><div class="tb-detail">Go back to the 1–2 SQL concepts that confused you most this week. Re-read the explanation. Re-write the query. Don't move to new concepts — solidify what's shaky.</div></div></div>
+    <div class="time-row"><div class="time-label">3:00</div><div class="time-block py"><div class="tb-title">🐍 Python Light Review</div><div class="tb-detail">Same — revisit the Python thing that didn't click. Rewrite it. Run it. Break it on purpose and fix it. That's how you actually understand it.</div></div></div>
+    <div class="time-row"><div class="time-label">4:00</div><div class="time-block hlth"><div class="tb-title">🏃 Walk / Gym / Outdoor Time</div><div class="tb-detail">Longer movement session today. Get outside. Your brain works better after physical activity — this isn't optional self-care, it's performance maintenance.</div></div></div>
+    <div class="time-row"><div class="time-label">5:30</div><div class="time-block brk"><div class="tb-title">🍽️ Dinner</div></div></div>
+    <div class="time-row"><div class="time-label">7:00</div><div class="time-block rev"><div class="tb-title">📺 Inspiration — 1 Good Talk or Podcast</div><div class="tb-detail">Watch a data analyst's career story on YouTube. Or listen to "DataFramed" / "Towards Data Science" podcast. Keeps your energy high and your context fresh.</div></div></div>
+    <div class="time-row"><div class="time-label">8:00</div><div class="time-block rev"><div class="tb-title">📝 Finalize Monday's SQL Topic + Set Intention</div><div class="tb-detail">Write: "This week I will finish Phase 0 SQL and complete Kaggle Python Lessons 1–4." Stick it somewhere you'll see it Monday morning. Done.</div></div></div>
+    <div class="time-row"><div class="time-label">9:00</div><div class="time-block brk"><div class="tb-title">🌙 Early Night — Be fresh for Monday</div><div class="tb-detail">Sleep by 10:30. Monday is your most important day of the week. Protect it.</div></div></div>
+  </div>
+
+</div><!-- end schedule-area -->
+</main>
+
+<!-- WEEKLY OVERVIEW -->
+<div class="week-overview">
+  <div class="overview-title">📅 Week at a Glance — Click to Jump</div>
+  <div class="overview-grid">
+    <div class="ov-day ov-active" onclick="switchDay('mon',null);this.parentElement.querySelectorAll('.ov-day').forEach(d=>d.classList.remove('ov-active'));this.classList.add('ov-active')">
+      <div class="ov-name">MON</div>
+      <div class="ov-theme" style="color:var(--c-sql)">SQL</div>
+      <div class="ov-dots">
+        <span class="ov-dot" style="background:var(--c-sql)"></span>
+        <span class="ov-dot" style="background:var(--c-apps)"></span>
+        <span class="ov-dot" style="background:var(--c-network)"></span>
+      </div>
+    </div>
+    <div class="ov-day" onclick="switchDay('tue',null);this.parentElement.querySelectorAll('.ov-day').forEach(d=>d.classList.remove('ov-active'));this.classList.add('ov-active')">
+      <div class="ov-name">TUE</div>
+      <div class="ov-theme" style="color:var(--c-python)">Python</div>
+      <div class="ov-dots">
+        <span class="ov-dot" style="background:var(--c-python)"></span>
+        <span class="ov-dot" style="background:var(--c-apps)"></span>
+        <span class="ov-dot" style="background:var(--c-sql)"></span>
+      </div>
+    </div>
+    <div class="ov-day" onclick="switchDay('wed',null);this.parentElement.querySelectorAll('.ov-day').forEach(d=>d.classList.remove('ov-active'));this.classList.add('ov-active')">
+      <div class="ov-name">WED</div>
+      <div class="ov-theme" style="color:var(--c-bi)">BI Tools</div>
+      <div class="ov-dots">
+        <span class="ov-dot" style="background:var(--c-bi)"></span>
+        <span class="ov-dot" style="background:var(--c-apps)"></span>
+        <span class="ov-dot" style="background:var(--c-sql)"></span>
+      </div>
+    </div>
+    <div class="ov-day" onclick="switchDay('thu',null);this.parentElement.querySelectorAll('.ov-day').forEach(d=>d.classList.remove('ov-active'));this.classList.add('ov-active')">
+      <div class="ov-name">THU</div>
+      <div class="ov-theme" style="color:var(--c-apps)">Apply</div>
+      <div class="ov-dots">
+        <span class="ov-dot" style="background:var(--c-apps)"></span>
+        <span class="ov-dot" style="background:var(--c-network)"></span>
+        <span class="ov-dot" style="background:var(--c-sql)"></span>
+      </div>
+    </div>
+    <div class="ov-day" onclick="switchDay('fri',null);this.parentElement.querySelectorAll('.ov-day').forEach(d=>d.classList.remove('ov-active'));this.classList.add('ov-active')">
+      <div class="ov-name">FRI</div>
+      <div class="ov-theme" style="color:var(--c-research)">Build</div>
+      <div class="ov-dots">
+        <span class="ov-dot" style="background:var(--c-research)"></span>
+        <span class="ov-dot" style="background:var(--c-python)"></span>
+        <span class="ov-dot" style="background:var(--c-apps)"></span>
+      </div>
+    </div>
+    <div class="ov-day" onclick="switchDay('sat',null);this.parentElement.querySelectorAll('.ov-day').forEach(d=>d.classList.remove('ov-active'));this.classList.add('ov-active')">
+      <div class="ov-name">SAT</div>
+      <div class="ov-theme" style="color:var(--c-network)">Interview</div>
+      <div class="ov-dots">
+        <span class="ov-dot" style="background:var(--c-network)"></span>
+        <span class="ov-dot" style="background:var(--c-sql)"></span>
+        <span class="ov-dot" style="background:var(--c-bi)"></span>
+      </div>
+    </div>
+    <div class="ov-day" onclick="switchDay('sun',null);this.parentElement.querySelectorAll('.ov-day').forEach(d=>d.classList.remove('ov-active'));this.classList.add('ov-active')">
+      <div class="ov-name">SUN</div>
+      <div class="ov-theme" style="color:var(--c-review)">Review</div>
+      <div class="ov-dots">
+        <span class="ov-dot" style="background:var(--c-review)"></span>
+        <span class="ov-dot" style="background:var(--c-health)"></span>
+        <span class="ov-dot" style="background:var(--c-sql)"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const dayResources = {
+  mon: {
+    title: "📚 Monday · SQL Resources",
+    links: [
+      { url: "https://datalemur.com", label: "DataLemur — Daily problem" },
+      { url: "https://sqlzoo.net/wiki/SELECT_basics", label: "SQLZoo — SELECT Basics" },
+      { url: "https://www.khanacademy.org/computing/computer-programming/sql", label: "Khan Academy SQL" },
+      { url: "https://sqliteonline.com", label: "SQLiteOnline — Sandbox" },
+      { url: "https://leetcode.com/problemset/database/", label: "LeetCode SQL Easy" },
+    ]
+  },
+  tue: {
+    title: "📚 Tuesday · Python Resources",
+    links: [
+      { url: "https://datalemur.com", label: "DataLemur — Daily SQL (always)" },
+      { url: "https://www.kaggle.com/learn/python", label: "Kaggle Learn — Python" },
+      { url: "https://colab.research.google.com", label: "Google Colab — No install" },
+      { url: "https://www.youtube.com/@statquest", label: "StatQuest — Stats & ML" },
+      { url: "https://www.kaggle.com/learn/pandas", label: "Kaggle Learn — Pandas" },
+    ]
+  },
+  wed: {
+    title: "📚 Wednesday · BI Resources",
+    links: [
+      { url: "https://datalemur.com", label: "DataLemur — Daily SQL (always)" },
+      { url: "https://chandoo.org/wp/learn-excel/", label: "Chandoo.org — Excel" },
+      { url: "https://www.youtube.com/@GuyInACube", label: "Guy in a Cube — Power BI" },
+      { url: "https://public.tableau.com/app/discover", label: "Tableau Public Gallery" },
+      { url: "https://www.makeovermonday.co.uk", label: "#MakeoverMonday" },
+    ]
+  },
+  thu: {
+    title: "📚 Thursday · Application Tools",
+    links: [
+      { url: "https://datalemur.com", label: "DataLemur — Daily SQL (always)" },
+      { url: "https://www.linkedin.com/jobs/", label: "LinkedIn Jobs" },
+      { url: "https://www.indeed.com", label: "Indeed" },
+      { url: "https://platform.stratascratch.com/coding", label: "StrataScratch — Company SQL" },
+      { url: "https://wellfound.com", label: "Wellfound (Startups)" },
+    ]
+  },
+  fri: {
+    title: "📚 Friday · Build Resources",
+    links: [
+      { url: "https://datalemur.com", label: "DataLemur — Daily SQL (always)" },
+      { url: "https://www.kaggle.com/datasets", label: "Kaggle Datasets" },
+      { url: "https://github.com/Sharan-Kumar-Reddy-Kodudula", label: "Your GitHub" },
+      { url: "https://www.youtube.com/@AndrejKarpathy", label: "Andrej Karpathy — DL" },
+      { url: "https://huggingface.co/learn", label: "HuggingFace Courses" },
+    ]
+  },
+  sat: {
+    title: "📚 Saturday · Interview Prep",
+    links: [
+      { url: "https://datalemur.com", label: "DataLemur — Timed practice" },
+      { url: "https://platform.stratascratch.com/coding", label: "StrataScratch — Mock SQL" },
+      { url: "https://mode.com/sql-tutorial/", label: "Mode — Window Functions" },
+      { url: "https://sqliteonline.com", label: "SQLiteOnline — Write queries" },
+      { url: "https://www.youtube.com/@statquest", label: "StatQuest — Concept review" },
+    ]
+  },
+  sun: {
+    title: "📚 Sunday · Review Tools",
+    links: [
+      { url: "https://datalemur.com", label: "DataLemur — Daily SQL (always)" },
+      { url: "skill_roadmap.html", label: "Your Skill Roadmap → Check off items" },
+      { url: "https://www.youtube.com/@statquest", label: "StatQuest — Podcast/video" },
+      { url: "https://www.kaggle.com/learn", label: "Kaggle Learn — Progress check" },
+    ]
+  }
+};
+
+const dayQuotes = {
+  mon: { q: "Every expert was once a beginner. Every professional was once an amateur.", c: "— Robin Sharma" },
+  tue: { q: "The best time to learn Python was yesterday. The second best time is now.", c: "— Sharan, probably" },
+  wed: { q: "A great dashboard answers a question before the question is asked.", c: "— Dashboard Design Principle" },
+  thu: { q: "Your network is your net worth. One real conversation beats 100 applications.", c: "— Job Hunt Truth" },
+  fri: { q: "Ship something small every week. Compound interest applies to portfolios too.", c: "— Build Mindset" },
+  sat: { q: "You don't rise to the level of your goals. You fall to the level of your systems.", c: "— James Clear" },
+  sun: { q: "Rest is not idleness. It is the most productive thing you can do for next week.", c: "— Recovery Principle" },
+};
+
+function switchDay(day, btn) {
+  document.querySelectorAll('.day-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('day-' + day).classList.add('active');
+  if (btn) btn.classList.add('active');
+
+  // Update sidebar resources
+  const res = dayResources[day];
+  document.getElementById('sidebar-res-title').textContent = res.title;
+  document.getElementById('sidebar-resources').innerHTML = res.links
+    .map(l => `<a class="res-link" href="${l.url}" target="_blank">${l.label}</a>`)
+    .join('');
+
+  // Update quote
+  const q = dayQuotes[day];
+  document.getElementById('daily-quote').textContent = `"${q.q}"`;
+  document.getElementById('daily-cite').textContent = q.c;
+}
+</script>
+</body>
+</html>
